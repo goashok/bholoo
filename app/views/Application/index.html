@@ -1,0 +1,50 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+ <div class="container">
+
+      <!-- Masthead
+      ================================================== -->
+      <header class="jumbotron subhead" id="overview">
+        <div class="subnav">
+          <ul class="nav nav-pills">
+            <li><a href="@{Application.newClassified()}">Post</a></li>
+            <li><a href="#modals">Modal</a></li>
+            <li><a href="#dropdowns">Dropdown</a></li>
+            <li><a href="#scrollspy">Scrollspy</a></li>
+            <li><a href="#tabs">Tab</a></li>
+            <li><a href="#tooltips">Tooltip</a></li>
+            <li><a href="#popovers">Popover</a></li>
+            <li><a href="#alerts">Alert</a></li>
+            <li><a href="#buttons">Button</a></li>
+            <li><a href="#collapse">Collapse</a></li>
+            <li><a href="#carousel">Carousel</a></li>
+            <li><a href="#typeahead">Typeahead</a></li>
+          </ul>
+        </div>
+      </header>
+      
+      <!-- Using Javascript w/ Bootstrap
+      ================================================== -->
+      <section id="javascript">
+      <div class="page-header">
+        <h1>Classifieds <small>Find the stuff you need !!</small></h1>
+      </div>
+      #{list items:categoriesTable.rows, as:'row'}
+      	<div class="row">
+      	#{list row.columns, as:'column'}
+	      	
+	        <div class="span3">
+	          <label>
+	            <h3><a href="@{Application.listClassifieds(column.value.id, column.value.name, 1, true)}">${column.value.name}</a></h3>
+	            #{list subCategoryMap.get(column.value.name), as:'subcategory'}
+	            <p><a href="@{Application.listClassifieds(subcategory.id, subcategory.name, 1, false)}">${subcategory.name}</a></p>
+	            #{/list}
+	          </label>
+	        </div>
+        #{/list}
+        </div>
+       #{/list}     
+      <div class="alert alert-info"><strong>Heads up!</strong> You must be 18 or older to post any classifieds</div>
+    </section>
+ </div><!-- /container -->    

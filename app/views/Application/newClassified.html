@@ -1,0 +1,75 @@
+#{extends 'main.html' /}
+#{set title:'Post a classified' /}
+
+<h2>Post a classified</h2>
+
+<div class="row">
+	<div class="span8">
+ 
+		#{form @Application.postClassified()}
+			 #{ifErrors}
+		        <div class="alert alert-error fade in">
+		        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        		<strong> ${errors[0]}</strong>
+		        </div>
+		    #{/ifErrors}
+		     <fieldset>
+         			<legend>Please fill in the form</legend>
+		          	<div class="control-group">
+		            	<div class="controls docs-input-sizes">
+		              		<input type="text" class="span8" name="title" id="title" placeholder="Title">		              	
+		            	</div>
+          			</div>
+          			<div class="control-group">
+			            <div class="controls">
+			              <textarea class="span8" name="description" id="description" placeholder="Description" rows="15" cols="125"></textarea>
+			            </div>
+			        </div>
+			        <div class="control-group">
+		            	<div class="controls">
+		              		<input type="text" class="input-xlarge" name="price" id="price" placeholder="Price">
+		              		<p class="help-block">Optional</p>		              	
+		            	</div>
+          			</div>
+          			<div class="control-group">
+		            	<div class="controls">
+		              		<input type="text" class="input-xlarge" name="city" id="city" placeholder="City">
+		            	</div>
+          			</div>
+          			<div class="control-group">
+			            <div class="controls">
+			              <select id="categoryId" name="categoryId">
+			                #{list items:categories, as:'category'} 
+					    		<option value="${category.id}">${category.name}</option> 
+							#{/list} 
+			              </select>
+			            </div>
+          			</div>
+          			<div class="control-group">
+		            	<div class="controls">
+		              		<input type="text" class="input-xlarge" name="phone" id="phone" placeholder="Phone xxx-xxx-xxxx">
+		            	</div>
+          			</div>
+          			<div class="control-group">
+		            	<div class="controls">
+		            		 <label class="control-label" for="code">Please type the verification code below</label>
+		            		 <img src="@{Application.captcha(randomID)}" />		            		 
+		            		 <p>
+		              		 <input type="text" class="input-xlarge" name="code" id="code" placeholder="Verification Code">
+		              		 <input type="hidden" name="randomID" value="${randomID}" />
+		              		 </p>
+		              		 		              	
+		            	</div>
+          			</div>
+          			<div class="form-actions">
+            			<button type="submit" class="btn btn-primary">Save</button>
+            			<a href="@{Application.index}">
+            			<button class="btn">Cancel</button>
+            			</a>
+          			</div>
+        	</fieldset>
+		   
+		#{/form}
+		
+	</div><!-- span8 -->	
+</div> <!-- row -->

@@ -1,0 +1,42 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<section id="javascript">
+	<div class="container">
+
+      <h1>Classifieds matching ${categoryName}</h1>
+      <p></p>
+    </div> <!-- /container -->
+    
+	<div class="container">
+      	<table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th>Title</th>
+		      <th>Price</th>
+		      <th>City</th>
+		      <th>Posted At</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    #{if classifieds.size() }
+			   	#{list classifieds, as: 'classified'}
+			    <tr>
+			      <td><a href="@{Application.viewClassified(classified.id, classified.title, classified.description, classified.city, classified.phone, classified.price)}">${classified.title}</a></td>
+			      <td>${classified.price}</td>
+			      <td>${classified.city}</td>
+			      <td>${classified.postedAt}<td>
+			    </tr>
+			  	#{/list}
+		  	#{/if}
+		  	#{else}
+		  		 <tr>
+			      <td>No classifieds posted ... </td>
+			      <td></td>
+			      <td></td>
+			      <td><td>
+			    </tr>
+		  	#{/else}
+		  </tbody>
+		</table>
+	</div><!-- /container -->   
+</section> 

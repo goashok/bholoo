@@ -1,0 +1,316 @@
+
+# Test data
+
+User(bob):
+    email:          bob@gmail.com
+    password:       Xr4ilOzQ4PCOq3aQ0qbuaQ==
+    fullname:       Bob
+    isAdmin:        true
+    
+User(jeff):
+    email:          jeff@gmail.com
+    password:       Xr4ilOzQ4PCOq3aQ0qbuaQ==
+    fullname:       Jeff
+    
+Category(TourTravel):
+    name:          Tours & Travel
+    type:          classifieds
+
+Category(TourOperators):
+    name:          Tour Operators
+    type:          classifieds
+    parentName:    Tours & Travel
+    
+Category(TravelAgents):
+    name:          Travel Agents
+    type:          classifieds
+    parentName:    Tours  & Travel    
+
+Category(Automobiles):
+    name:          Automobiles
+    type:          classifieds
+    
+Category(CarsTruks):
+    name:          Cars & Trucks
+    type:          classifieds
+    parentName:    Automobiles    
+    
+Category(Bikes):
+    name:          Bikes
+    type:          classifieds
+    parentName:    Automobiles
+
+Category(Commercial):
+    name:          Commercial
+    type:          classifieds
+    parentName:    Automobiles        
+        
+Category(Apartments):
+    name:          Apartments
+    type:          classifieds
+    
+Category(SharedAccomodation):
+    name:          Shared Accomodation
+    type:          classifieds
+    parentName:    Apartments
+    
+Category(Studio):
+    name:          Studio
+    type:          classifieds
+    parentName:    Apartments      
+    
+Category(1,2 & 3 Bedrooms):
+    name:          1, 2 & 3 Bedrooms
+    type:          classifieds
+    parentName:    Apartments 
+        
+Category(Astrology):
+    name:          Astrology
+    type:          classifieds
+
+Category(Astrologers):
+    name:          Astrologers
+    type:          classifieds
+    parentName:    Astrology
+    
+Category(PalmReaders):
+    name:          Palm Readers
+    type:          classifieds
+    parentName:    Astrology
+    
+Category(BuySell):
+    name:          Buy & Sell
+    type:          classifieds
+    
+Category(Apparel):
+    name:          Apparel
+    type:          classifieds    
+    parentName:    Buy & Sell
+
+Category(HomeGoods):
+    name:          Home Goods
+    type:          classifieds    
+    parentName:    Buy & Sell
+    
+Category(Furniture):
+    name:          Furniture
+    type:          classifieds    
+    parentName:    Buy & Sell
+        
+Category(BusinessServices):
+    name:          Business Services
+    type:          classifieds
+
+Category(Accounting):
+    name:          Accounting
+    type:          classifieds
+    parentName:    Business Services
+
+Category(Legal):
+    name:          Legal
+    type:          classifieds
+    parentName:    Business Services    
+        
+Category(Entertainment):
+    name:          Entertainment
+    type:          classifieds
+
+Category(DJs):
+    name:          DJs
+    type:          classifieds
+    parentName:    Entertainment
+
+Category(BirthdayCharacters):
+    name:          Birthday Characters
+    type:          classifieds
+    parentName:    Entertainment
+            
+Category(EducationTraining):
+    name:          Education & Training
+    type:          classifieds
+
+Category(EducationIT):
+    name:          IT
+    type:          classifieds
+    parentName:    Education & Training
+    
+Category(ArtsnMusic):
+    name:          Arts & Music
+    type:          classifieds
+    parentName:    Education & Training
+            
+Category(FinancialServices):
+    name:          Financial Services
+    type:          classifieds
+
+Category(Insurance):
+    name:          Insurance
+    type:          classifieds
+    parentName:    FinancialServices
+
+Category(Investments):
+    name:          Investments
+    type:          classifieds
+    parentName:    Financial Services
+
+Category(Loans):
+    name:          Loans
+    type:          classifieds
+    parentName:    Financial Services
+                
+Category(FoodDining):
+    name:          Food & Dining
+    type:          classifieds
+
+Category(Restaurants):
+    name:          Restaurants
+    type:          classifieds
+    parentName:    Food & Dining
+    
+Category(HotelnMotels):
+    name:          Hotels & Motels
+    type:          classifieds
+    parentName:    Food & Dining    
+        
+Category(HomeServices):
+    name:          Home Services
+    type:          classifieds
+    
+Category(Nannies):
+    name:          Nannies
+    type:          classifieds
+    parentName:    Home Services
+        
+Category(Housekeepers):
+    name:          Housekeepers
+    type:          classifieds
+    parentName:    Home Services
+
+Category(Cooks):
+    name:          Cooks
+    type:          classifieds
+    parentName:    Home Services
+            
+Category(Jobs):
+    name:          Jobs
+    type:          classifieds     
+    
+Category(ITJobs):
+    name:          Information Technology
+    type:          classifieds
+    parentName:    Jobs
+
+Category(HealthcareJobs):
+    name:          Healthcare
+    type:          classifieds
+    parentName:    Jobs
+    
+Category(RetailJobs):
+    name:          Retail
+    type:          classifieds
+    parentName:    Jobs
+    
+Classified(1):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Marlboro
+    
+Classified(2):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Edison
+
+Classified(3):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Marlboro                              
+    
+Classified(4):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          South Plainfield
+    
+Classified(5):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Marlboro                              
+    
+Classified(6):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Morganville                              
+    
+Classified(7):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Old Bridge                              
+    
+Classified(8):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13 
+    city:          East Brunswick                             
+    
+Classified(9):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Highland Park                              
+    
+Classified(10):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          South River                              
+    
+Classified(11):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          South Brunswick                              
+    
+Classified(12):
+    title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          New Brunswick
+    
+Classified(13):
+    title:         Your stars*** are going to change, Meet Prem Jyotish
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    13
+    city:          Marlboro   
+
+Classified(14):
+    title:         Palm reader in Edison Area, reads Tarrot, Palm and Fortune
+    price:         200
+    postedAt:      2012-02-26 10:00:00.000
+    categoryId:    14
+    city:          Carteret   
+    
+Classified(15):
+    title:         Palm reading 24 x 7, By live internet camera, at your convenience.
+    price:         200
+    postedAt:      2012-02-28 10:00:00.000
+    categoryId:    14
+    city:          Lebanon                                                                                                                                                                                
