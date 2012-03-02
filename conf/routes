@@ -5,6 +5,14 @@
 # Home page
 GET     /                                       Application.index
 
+GET     /listMatches                            City.listMatches
+GET     /findByIp                            	City.findByIp
+GET		/neighborsByZip							City.neighborsByZip
+GET		/neighborsByName						City.neighborsByName
+
+GET		/testbootstrap							Application.testbootstrap
+GET		/testbootstrapjavascript				Application.testbootstrapjavascript
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

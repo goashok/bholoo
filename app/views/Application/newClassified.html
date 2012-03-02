@@ -33,7 +33,36 @@
           			</div>
           			<div class="control-group">
 		            	<div class="controls">
-		              		<input type="text" class="input-xlarge" name="city" id="city" placeholder="City">
+		              		<input type="text"  name="city" id="city" placeholder="City">
+		              		<script type="text/javascript">
+		              			$(document).ready(function() {
+							    	$("#city").autocomplete({
+							    		source: function(request, response){
+							    			$.ajax({
+							    				url: "@{City.listMatches}",
+							    				dataType: "json",
+							    				data: {
+							    					term: request.term
+							    				},
+							    				success: function(data) {
+							    					response(
+							    						$.map(
+							    							data,  	function(item) {
+							    										return {
+							    											value: item.name + ', ' + item.state
+							    										}
+							    								 	}
+							    						)
+							    					);
+							    				}
+							    			});
+							    		},
+							    		autofocus: true,
+							    		minLength: 3,
+							    		delay: 500
+									}); //autocomplete
+							  }); //ready
+		              		</script>
 		            	</div>
           			</div>
           			<div class="control-group">

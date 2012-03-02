@@ -11,10 +11,15 @@
     <!-- Le styles -->
     <link rel="stylesheet" type="text/css" media="screen" 
             href="@{'/public/stylesheets/bootstrap.css'}" />
-    <link href="@{'/public/stylesheets/bootstrap-responsive.css'}'" rel="stylesheet">
-    <link href="@{'/public/stylesheets/docs.css'}'" rel="stylesheet">
-    <link href="@{'/public/stylesheets/prettify.css'}'" rel="stylesheet">
+    <link href="@{'/public/stylesheets/bootstrap-responsive.css'}" rel="stylesheet">
+    <link href="@{'/public/stylesheets/docs.css'}" rel="stylesheet">
+    <link href="@{'/public/stylesheets/prettify.css'}" rel="stylesheet">
+    <link href="@{'/public/stylesheets/smoothness/jquery-ui-1.8.18.custom.css'}" rel="stylesheet">
     <link href="@{'/public/stylesheets/main.css'}" rel="stylesheet">
+    <script src="@{'/public/javascripts/jquery-1.7.1.min.js'}"></script> 
+    <script src="@{'/public/javascripts/jquery-ui-1.8.18.custom.min.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap-modal.js'}"></script>
+   
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -47,17 +52,77 @@
           <a class="brand" href="@{Application.index()}">Bholoo</a>
           <div class="nav-collapse">
             <ul class="nav">
+              <li class="active"><a class="brand" href="@{Application.index()}">Bholoo</a></li>
               <li class="active"><a href="@{Application.index()}">Classifieds</a></li>
               <li><a href="@{Application.index()}">Deals</a></li>
               <li><a href="@{Application.index()}">Events</a></li>
               <li><a href="@{Application.index()}">About</a></li>
               <li><a href="@{Application.index()}">Contact</a></li>
+               <li class="">
+		          <a class="brand" onClick="javascript:$('#changeLocation').modal('show');" >${location.name}, ${location.state}</a>                
+              </li>
+          
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
+	
+	<!-- Modal to change location -->
+	<div id="changeLocation" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Change current location: </h3>
+            </div>
+            <div class="modal-body">
+              <h4>Choose City</h4>
+              <p>Start typing city name to autocomplete</p>
+              #{form @City.changeCityPreference()}
+			  <div class="control-group">
+		            	<div class="controls">
+		              		<input type="text"  name="cityPreference" id="cityPreference" placeholder="City" >
+		              		<script type="text/javascript">
+		              			$(document).ready(function() {
+							    	$("#cityPreference").autocomplete({
+							    		source: function(request, response){
+							    			$.ajax({
+							    				url: "@{City.listMatches}",
+							    				dataType: "json",
+							    				data: {
+							    					term: request.term
+							    				},
+							    				success: function(data) {
+							    					response(
+							    						$.map(
+							    							data,  	function(item) {
+							    										return {
+							    											value: item.name + ', ' + item.state
+							    										}
+							    								 	}
+							    						)
+							    					);
+							    				}
+							    			});
+							    		},
+							    		autofocus: true,
+							    		minLength: 3,
+							    		delay: 500
+									}); //autocomplete
+							  }); //ready
+		              		</script>
+		            	</div>
+          			</div>
+            </div>
+            <div class="modal-footer">
+             <div class="form-actions">
+				<button type="submit" class="btn btn-primary">Save</button>
+				<a href="@{Application.index}">
+				<button class="btn">Cancel</button>
+				</a>
+          	 </div>
+            </div>
+            #{/form}
+          </div>
     <div class="container">
 
       <h1>Bholooooo....</h1>
@@ -69,11 +134,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> -->
-    <script src="@{'/public/javascripts/jquery-1.7.1.min.js'}"></script> 
-    
-    <script src="@{'/public/javascripts/bootstrap-alert.js'}"></script>
-    <script src="@{'/public/javascripts/bootstrap-modal.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap-alert.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-scrollspy.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-tab.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-tooltip.js'}"></script>

@@ -14,9 +14,10 @@ import java.util.*;
 
 import models.*;
 
+@With(LocationController.class)
 public class Application extends Controller {
 
-    public static void index() {
+    public static void index() {    	
     	Map<String, List<Category>> subCategoryMap = new HashMap<String, List<Category>>();
     	List<Category> categories = Category.find("parentName is null and type = 'classifieds' order by name").fetch();
     	Table<Category> categoriesTable = new Table<Category>();
@@ -31,9 +32,9 @@ public class Application extends Controller {
     		row.addColumn(new Column<Category>(category));
     		List<Category> subCategories = Category.find("parentName = '" + category.name + "' order by name").fetch();
     		subCategoryMap.put(category.name, subCategories);
-    	}
-    	
-        render(categoriesTable, subCategoryMap);
+    	}    	
+    	models.City location = LocationController.getLocation();
+        render(categoriesTable, subCategoryMap, location);
     }
     
     public static void listClassifieds(long categoryId, String categoryName, int page, boolean isParent) {
@@ -53,14 +54,15 @@ public class Application extends Controller {
     	}else {
     		classifieds =  Classified.find("categoryId = " + categoryId + " order by postedAt desc").fetch(page, 100);
     	}
-    		
-    	render(categoryName, classifieds);
+    	models.City location = (models.City) LocationController.getLocation();
+    	render(categoryName, classifieds, location);
     }
     
     public static void newClassified() {
     	String randomID = Codec.UUID();
     	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
-    	render(randomID, categories);
+	    models.City location = (models.City) Cache.get(request.remoteAddress);
+    	render(randomID, categories, location);
     }
     
     public static void postClassified(
@@ -79,7 +81,8 @@ public class Application extends Controller {
         if(validation.hasErrors()) {
         	 //User user = new User(SecureSocial.getCurrentUser());
         	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
-            render("Application/newClassified.html",  randomID, categories);
+        	models.City location = LocationController.getLocation();
+            render("Application/newClassified.html",  randomID, categories, location);
         }
         Classified classified = new Classified(title, description, price, city, categoryId, phone, "testUser");
         classified.save();
@@ -90,7 +93,8 @@ public class Application extends Controller {
     
     
     public static void viewClassified(long id, String title, String description, String city, String phone, double price) {
-    	render(title, description, city, phone, price);
+    	models.City location = LocationController.getLocation();
+    	render(title, description, city, phone, price, location);
     }
     
     public static void captcha(String id) {
@@ -103,4 +107,9 @@ public class Application extends Controller {
     public static void testbootstrap() {
     	render();
     }
+    
+    public static void testbootstrapjavascript() {
+    	render();
+    }
+    
 }
