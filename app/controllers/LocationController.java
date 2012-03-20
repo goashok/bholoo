@@ -12,11 +12,12 @@ public class LocationController extends Controller {
 		String ip = request.remoteAddress;
 		if(Cache.get(ip) == null) {
 			try {
+				System.out.println("Cannot find ip in cache for ip: " + request.remoteAddress);
 				models.City city = City.findByIp(ip);
-				Cache.set(ip, city, "30mn");
+				Cache.set(ip, city, "8h");
 			}catch(Exception e) {
 				models.City nyc = CityParser.cityByNameState.get("New York"+"NY"); //default to NYC
-				Cache.set(ip, nyc, "30mn");
+				Cache.set(ip, nyc, "8h");
 			}
 		}
 	}

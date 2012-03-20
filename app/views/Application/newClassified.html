@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="span8">
  
-		#{form @Application.postClassified()}
+		#{form @Application.postClassified(), enctype:'multipart/form-data'}
 			 #{ifErrors}
 		        <div class="alert alert-error fade in">
 		        <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -17,23 +17,23 @@
          			<legend>Please fill in the form</legend>
 		          	<div class="control-group">
 		            	<div class="controls docs-input-sizes">
-		              		<input type="text" class="span8" name="title" id="title" placeholder="Title">		              	
+		              		<input type="text" class="span8" name="title" id="title" placeholder="Title" value="${flash.title}">		              	
 		            	</div>
           			</div>
           			<div class="control-group">
 			            <div class="controls">
-			              <textarea class="span8" name="description" id="description" placeholder="Description" rows="15" cols="125"></textarea>
+			              <textarea class="span8" name="description" id="description" placeholder="Description" rows="15" cols="125">${flash.description}</textarea>
 			            </div>
 			        </div>
 			        <div class="control-group">
 		            	<div class="controls">
-		              		<input type="text" class="input-xlarge" name="price" id="price" placeholder="Price">
+		              		<input type="text" class="input-xlarge" name="price" id="price" placeholder="Price" value="${flash.price}">
 		              		<p class="help-block">Optional</p>		              	
 		            	</div>
           			</div>
           			<div class="control-group">
 		            	<div class="controls">
-		              		<input type="text"  name="city" id="city" placeholder="City">
+		              		<input type="text"  name="city" id="city" placeholder="City" value="${flash.city}">
 		              		<script type="text/javascript">
 		              			$(document).ready(function() {
 							    	$("#city").autocomplete({
@@ -69,14 +69,25 @@
 			            <div class="controls">
 			              <select id="categoryId" name="categoryId">
 			                #{list items:categories, as:'category'} 
-					    		<option value="${category.id}">${category.name}</option> 
+			                   #{if category.id.toString() == flash.categoryId}
+					    		<option value="${category.id}" selected="selected">${category.name}</option>
+					    	   #{/if}
+					    	   #{else}
+					    	   	<option value="${category.id}" >${category.name}</option>
+					    	   #{/else}
 							#{/list} 
 			              </select>
 			            </div>
           			</div>
           			<div class="control-group">
 		            	<div class="controls">
-		              		<input type="text" class="input-xlarge" name="phone" id="phone" placeholder="Phone xxx-xxx-xxxx">
+		              		<input type="text" class="input-xlarge" name="phone" id="phone" placeholder="Phone xxx-xxx-xxxx" value="${flash.phone}">
+		            	</div>
+          			</div>
+          			<div class="control-group">
+		            	<div class="controls">
+		              		<input type="file" draggable="true" name="boundFiles" id="boundFiles" multiple="multiple" value="${flash.boundFiles}">
+		              		 <strong>(Max. 4 photos)</strong> <span class="error">#{error 'files' /}
 		            	</div>
           			</div>
           			<div class="control-group">

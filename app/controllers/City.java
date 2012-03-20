@@ -123,7 +123,7 @@ public class City extends Controller {
 			cityPreference = cityPreference.replaceAll(",", "");
 			cityPreference = cityPreference.replaceAll(" ", "");
 			models.City location = CityParser.cityByNameState.get(cityPreference);
-			Cache.set(request.remoteAddress, location);
+			Cache.replace(request.remoteAddress, location, "8h");
 			Application.index();
 		}
 	

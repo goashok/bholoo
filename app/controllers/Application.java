@@ -2,6 +2,9 @@ package controllers;
 
 import play.*;
 import play.cache.Cache;
+import play.data.binding.As;
+import play.data.binding.types.FileArrayBinder;
+import play.data.validation.Phone;
 import play.data.validation.Required;
 import play.libs.Codec;
 import play.libs.Images;
@@ -10,7 +13,12 @@ import util.Table;
 import util.Table.Column;
 import util.Table.Row;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.*;
+
+import org.apache.commons.io.IOUtils;
 
 import models.*;
 
@@ -69,16 +77,21 @@ public class Application extends Controller {
             @Required(message="Title is required") String title, 
             @Required(message="Description is required") String description, 
             @Required(message="City is required") String city,
+            @Phone(message="Invalid phone number") String phone,
             @Required(message="Please type the code") String code,
-            @Required(message="Category is required") long categoryId,            
+            @Required(message="Category is required") long categoryId, 
+            @As(binder = FileArrayBinder.class) Object boundFiles,
             double price,
-            String phone,
             String randomID) 
     {
+    	File[] files = (File[]) boundFiles;
+    	System.out.println("File Sizes" + files.length);
         validation.equals(
             code, Cache.get(randomID)
         ).message("Invalid code. Please type it again");
+        validation.max(files.length, 4).message("Cannot upload more than 4 files");
         if(validation.hasErrors()) {
+        	params.flash();
         	 //User user = new User(SecureSocial.getCurrentUser());
         	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
         	models.City location = LocationController.getLocation();
@@ -86,6 +99,25 @@ public class Application extends Controller {
         }
         Classified classified = new Classified(title, description, price, city, categoryId, phone, "testUser");
         classified.save();
+        try {
+        	int i=1;
+	        for (File file : files) { 
+	            FileInputStream is = new FileInputStream(file); 
+	            String dirPath = "/temp/bholoodata/" + classified.id ;
+	            
+	            File directory = new File(dirPath);
+	            directory.mkdir();
+	           
+	            String original =  i+file.getName().substring(file.getName().indexOf('.'));
+	            
+	            FileOutputStream fos =  new FileOutputStream(new File(directory, original));
+	            IOUtils.copy(is,fos); 
+	            fos.close();
+	            i++;
+	        }  
+        }catch(Exception e) {
+        	Logger.error(e, "Unable to save images for classified id=%s" + classified.id);
+        }
         flash.success("Thanks for posting %s, Following posting has been submitted", "testUser");
         Cache.delete(randomID);
         viewClassified(classified.id, title, description, city, phone, price);
