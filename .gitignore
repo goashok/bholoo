@@ -5,3 +5,7 @@
 /.settings
 /.classpath
 /.project
+/modules
+/lib
+/test-result
+/logs
