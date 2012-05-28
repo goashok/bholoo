@@ -9,13 +9,13 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
+    <link href="@{'/public/stylesheets/main.css'}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" 
             href="@{'/public/stylesheets/bootstrap.css'}" />
     <link href="@{'/public/stylesheets/bootstrap-responsive.css'}" rel="stylesheet">
     <link href="@{'/public/stylesheets/docs.css'}" rel="stylesheet">
     <link href="@{'/public/stylesheets/prettify.css'}" rel="stylesheet">
     <link href="@{'/public/stylesheets/smoothness/jquery-ui-1.8.18.custom.css'}" rel="stylesheet">
-    <link href="@{'/public/stylesheets/main.css'}" rel="stylesheet">
     <script src="@{'/public/javascripts/jquery-1.7.1.min.js'}"></script> 
     <script src="@{'/public/javascripts/jquery-ui-1.8.18.custom.min.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-modal.js'}"></script>
@@ -59,10 +59,28 @@
               <li><a href="@{Application.index()}">About</a></li>
               <li><a href="@{Application.index()}">Contact</a></li>
                <li class="">
-		          <a class="brand" onClick="javascript:$('#changeLocation').modal('show');" >${location.name}, ${location.state}</a>                
+		          <a class="brand" onClick="javascript:$('#changeLocation').modal('show');" >${locationPref.city}, ${locationPref.state}</a>                
               </li>
-          
             </ul>
+            <ul class="nav pull-right">
+               #{if session.username }
+                <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown">${session.username}<b class="caret"></b></a>
+	              <ul class="dropdown-menu">
+	                <li><a href="@{Secure.logout()}">Logout</a></li>
+	                <li><a href="@{Classifieds.mylist()}">My Classifieds</a></li>
+	                <li><a href="#">My Events</a></li>
+	                <li><a href="#">My Deals</a></li>
+	                <li class="divider"></li>
+	                <li><a href="#">My Preferences</a></li>
+	              </ul>
+	            </li>
+                <!--li><a href="@{Secure.logout()}">Logout ${session.username}</a></li>-->
+               #{/if}
+               #{else}
+			 	<li><a href="@{Secure.login()}">Login</a></li>               	
+               #{/else}
+             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -77,10 +95,10 @@
             <div class="modal-body">
               <h4>Choose City</h4>
               <p>Start typing city name to autocomplete</p>
-              #{form @City.changeCityPreference()}
+              #{form @LocationController.changeLocationPref()}
 			  <div class="control-group">
 		            	<div class="controls">
-		              		<input type="text"  name="cityPreference" id="cityPreference" placeholder="City" >
+		              		<input type="text"  name="cityPreference" id="cityPreference" placeholder="City" value="${locationPref.city}, ${locationPref.state}" >
 		              		<script type="text/javascript">
 		              			$(document).ready(function() {
 							    	$("#cityPreference").autocomplete({
@@ -111,12 +129,15 @@
 							  }); //ready
 		              		</script>
 		            	</div>
+		            	<div class="controls">
+		            		<input type="text"  name="radius" id="radius" placeholder="Radius" value="${locationPref.radius}" size="5"> (Radius in miles)
+		            	</div>
           			</div>
             </div>
             <div class="modal-footer">
              <div class="form-actions">
 				<button type="submit" class="btn btn-primary">Save</button>
-				<a href="@{Application.index}">
+				<a href="@{Application.index()}">
 				<button class="btn">Cancel</button>
 				</a>
           	 </div>
@@ -144,7 +165,7 @@
     <script src="@{'/public/javascripts/bootstrap-collapse.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-carousel.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap-typeahead.js'}"></script>
-    <script src="@{'/public/javascripts/bootstrap-transition.js'}></script>
+    <script src="@{'/public/javascripts/bootstrap-transition.js'}"></script>
 
   </body>
 </html>

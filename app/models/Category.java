@@ -16,4 +16,8 @@ public class Category extends Model {
 	public String type;
 	
 	
+	public static List<Category> findAllSubcategories() {
+		return  Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
+	}
+	
 }

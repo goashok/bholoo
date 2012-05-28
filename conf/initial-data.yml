@@ -24,7 +24,7 @@ Category(TourOperators):
 Category(TravelAgents):
     name:          Travel Agents
     type:          classifieds
-    parentName:    Tours  & Travel    
+    parentName:    Tours & Travel    
 
 Category(Automobiles):
     name:          Automobiles
@@ -215,102 +215,128 @@ Classified(1):
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Marlboro
+    city:          Marlboro, NJ
+    zip:           07751
     
 Classified(2):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Edison
+    city:          Edison, NJ
+    zip:           08820
 
 Classified(3):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Marlboro                              
+    city:          Marlboro, NJ
+    zip:           07751                              
     
 Classified(4):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          South Plainfield
+    city:          South Plainfield, NJ
+    zip:           07080
     
 Classified(5):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Marlboro                              
+    city:          Marlboro, NJ
+    zip:           07751                              
     
 Classified(6):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Morganville                              
+    city:          Morganville, NJ
+    zip:           07751                              
     
 Classified(7):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          Old Bridge                              
+    city:          Old Bridge, NJ
+    zip:           08857                              
     
 Classified(8):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13 
-    city:          East Brunswick                             
+    city:          East Brunswick, NJ
+    zip:           08816                             
     
 Classified(9):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      bob@gmail.com
     categoryId:    13
-    city:          Highland Park                              
+    city:          Highland Park, NJ
+    zip:           08904                                 
     
 Classified(10):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          South River                              
+    city:          South River, NJ
+    zip:           08882                              
     
 Classified(11):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          South Brunswick                              
+    city:          Cincinnati, OH
+    zip:           45202                   
     
 Classified(12):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
-    city:          New Brunswick
+    city:          Virginia Beach, VA
+    zip:           23451
     
 Classified(13):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      bob@gmail.com
     categoryId:    13
-    city:          Marlboro   
+    city:          Marlboro, NJ
+    zip:           07751   
 
 Classified(14):
     title:         Palm reader in Edison Area, reads Tarrot, Palm and Fortune
     price:         200
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    14
-    city:          Carteret   
+    city:          Carteret, NJ
+    zip:           07008   
     
 Classified(15):
     title:         Palm reading 24 x 7, By live internet camera, at your convenience.
     price:         200
     postedAt:      2012-02-28 10:00:00.000
     categoryId:    14
-    city:          Lebanon                                                                                                                                                                                
+    city:          Lebanon, NJ
+    zip:           08833                                                                                                                                                                                
+    
+Classified(16):
+    title:         Palm reading 24 x 7, By live internet camera, at your convenience.
+    price:         200
+    postedAt:      2012-02-28 10:00:00.000
+    postedBy:      bob@gmail.com
+    categoryId:    14
+    city:          Syosset, NY
+    zip:           11773    

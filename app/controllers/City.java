@@ -17,6 +17,7 @@ import play.cache.Cache;
 import play.mvc.*;
 import play.vfs.VirtualFile;
 import util.CityParser;
+import util.LocationPref;
 
 public class City extends Controller {
 
@@ -58,19 +59,19 @@ public class City extends Controller {
 
 	}
 	
-	public static void neighborsByName(String name, String state, int radius) throws Exception {
+	public static List<models.City> neighborsByName(String name, String state, int radius) throws Exception {
 		models.City city = CityParser.cityByNameState.get(name+state);
-	    withinRadius(city, radius);
+	    return withinRadius(city, radius);
 
 }
 
-	public static void neighborsByZip(String zip, int radius) throws Exception {
+	public static List<models.City> neighborsByZip(String zip, int radius) throws Exception {
 		models.City city = CityParser.cityByZip.get(zip);
-		withinRadius(city, radius);
+		return withinRadius(city, radius);
 		
 	}
 		
-	private static void withinRadius(models.City city, double radius) {
+	private static List<models.City> withinRadius(models.City city, double radius) {
 		/*List<models.City> matches = new LinkedList<models.City>();
 		for(models.City c : CityParser.cities) {
 			if(c.distance(city) <= radius) {
@@ -105,7 +106,8 @@ public class City extends Controller {
 		      acceptList.add(match);  
 		    }
 		}
-		renderJSON(acceptList);
+		//renderJSON(acceptList);
+		return acceptList;
 	}
 	
 		public static List<models.City> matchingCities( double lowerLatBound, double upperLatBound, double lowerLongBound, double upperLongBound) {
@@ -116,15 +118,6 @@ public class City extends Controller {
 				}
 			}
 			return matched;
-		}
-
-		public static void changeCityPreference(String cityPreference) {
-			System.out.println("new city pref" + cityPreference);
-			cityPreference = cityPreference.replaceAll(",", "");
-			cityPreference = cityPreference.replaceAll(" ", "");
-			models.City location = CityParser.cityByNameState.get(cityPreference);
-			Cache.replace(request.remoteAddress, location, "8h");
-			Application.index();
 		}
 	
 }

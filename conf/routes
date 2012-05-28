@@ -12,12 +12,16 @@ GET		/neighborsByName						City.neighborsByName
 
 GET		/testbootstrap							Application.testbootstrap
 GET		/testbootstrapjavascript				Application.testbootstrapjavascript
+GET		/shopping								ProductCategories.productCategories
 
+GET		/classifieds/mylist						Classifieds.mylist
+GET		/classifieds/edit						Classifieds.edit
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
+*       /                                       module:secure
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

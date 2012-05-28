@@ -17,6 +17,7 @@ public class Classified extends Model {
 	public String description;
 	public double price;
 	public String city;
+	public String zip;
 	public long categoryId;
 	public String phone;
 	public String postedBy;
@@ -27,11 +28,12 @@ public class Classified extends Model {
 	}
 
 	public Classified(String title, String description, double price,
-			String city, long categoryId, String phone, String postedBy) {
+			String city, String zip, long categoryId, String phone, String postedBy) {
 		this.title = title;
 		this.description = description;
 		this.price = price;
 		this.city = city;
+		this.zip = zip;
 		this.categoryId = categoryId;
 		this.phone = phone;
 		this.postedBy = postedBy;

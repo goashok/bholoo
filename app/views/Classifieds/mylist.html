@@ -3,7 +3,7 @@
 <section id="javascript">
 	<div class="container">
 
-      <h1>Classifieds matching ${categoryName}</h1>
+      <h1>My Classifieds</h1>
       <p></p>
     </div> <!-- /container -->
     
@@ -15,16 +15,22 @@
 		      <th>Price</th>
 		      <th>City</th>
 		      <th>Posted At</th>
+		      <th>Action</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		    #{if classifieds.size() }
 			   	#{list classifieds, as: 'classified'}
 			    <tr>
-			      <td><a href="@{Application.viewClassified(classified.id, classified.title, classified.description, classified.city, classified.phone, classified.price)}">${classified.title}</a></td>
+			      <td><a href="@{Classifieds.view(classified.id, classified.title, classified.description, classified.city, classified.phone, classified.price)}">${classified.title}</a></td>
 			      <td>${classified.price}</td>
 			      <td>${classified.city}</td>
-			      <td>${classified.postedAt}<td>
+			      <td>${classified.postedAt}</td>
+			      <td>
+			      	<a class="btn" href="@{Classifieds.edit(classified.id)}"><i class="icon-edit"></i> Edit</a>
+			      	<a class="btn" href="#"><i class="icon-refresh"></i> Renew</a>
+			      	<a class="btn btn-danger" href="@{Classifieds.delete(classified.id)}"><i class="icon-trash icon-white"></i> Delete</a>
+			      </td>
 			    </tr>
 			  	#{/list}
 		  	#{/if}
@@ -33,7 +39,8 @@
 			      <td>No classifieds posted ... </td>
 			      <td></td>
 			      <td></td>
-			      <td><td>
+			      <td></td>
+			      <td></td>
 			    </tr>
 		  	#{/else}
 		  </tbody>
