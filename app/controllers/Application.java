@@ -25,7 +25,8 @@ import models.*;
 
 public class Application extends Controller {
 
-    public static void index() {    	
+    public static void index() {  
+    	Logger.info("Headers => \n" + request.headers);
     	Classifieds.index();
     }
       
