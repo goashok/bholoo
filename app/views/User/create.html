@@ -1,0 +1,63 @@
+#{extends 'main.html' /}
+#{set title:'Post a classified' /}
+
+<h2>Create New User</h2>
+
+<div class="row">
+	<div class="span8">
+ 
+		#{form @User.register(), enctype:'multipart/form-data'}
+			#{ifErrors}
+		        <div class="alert alert-error fade in">
+		        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        		<strong> ${errors[0]}</strong>
+		        </div>
+		    #{/ifErrors}		  
+		     <fieldset>
+         			<legend>Please fill in the form</legend>
+		          	<div class="control-group">
+		            	<div class="controls docs-input-sizes">
+		              		<input type="text" name="user.fullname" id="user.fullname" placeholder="Name" value="${flash['user.fullname']}">
+		            	</div>
+          			</div>
+          			<div class="control-group">
+			            <div class="controls">
+		              		<input type="text" name="user.email" id="user.email" placeholder="Email" value="${flash['user.email']}">
+			            </div>
+			        </div>
+			        <div class="control-group">
+		            	<div class="controls">
+			              		<input type="text" name="user.password" id="user.password" placeholder="Password" value="">		              				              
+		            	</div>
+		            	<div class="controls">
+			              		<input type="text" name="user.passwordCheck" id="user.passwordCheck" placeholder="Re-type Password" value="">		              				              
+		            	</div>
+          			</div>          		
+          			<div class="control-group">
+		            	<div class="controls">
+			              	<input type="text" class="input-xlarge" name="user.phone" id="user.phone" placeholder="Phone xxx-xxx-xxxx" value="${flash['user.phone']}">
+		            	</div>
+          			</div>          			
+          			<div class="control-group">
+		            	<div class="controls">
+		            		 <label class="control-label" for="code">Please type the verification code below</label>
+		            		 <img src="@{Application.captcha(randomID)}" />		            		 
+		            		 <p>
+		              		 <input type="text" class="input-xlarge" name="code" id="code" placeholder="Verification Code">
+		              		 <input type="hidden" name="randomID" value="${randomID}" />
+		              		 </p>
+		              		 		              	
+		            	</div>
+          			</div>
+          			<div class="form-actions">
+            			<button type="submit" class="btn btn-primary">Save</button>
+            			<a href="@{Application.index}">
+            			<button class="btn">Cancel</button>
+            			</a>
+          			</div>
+        	</fieldset>
+		   
+		#{/form}
+		
+	</div><!-- span8 -->	
+</div> <!-- row -->
