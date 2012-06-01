@@ -22,7 +22,7 @@
 		    #{if classifieds.size() }
 			   	#{list classifieds, as: 'classified'}
 			    <tr>
-			      <td><a href="@{Classifieds.view(classified.id, classified.title, classified.description, classified.city, classified.phone, classified.price)}">${classified.title}</a></td>
+			      <td><a href="@{Classifieds.view(classified.id)}">${classified.title}</a></td>
 			      <td>${classified.price}</td>
 			      <td>${classified.city}</td>
 			      <td>${classified.postedAt}</td>

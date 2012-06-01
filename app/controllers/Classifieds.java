@@ -2,27 +2,35 @@ package controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.BeforeClass;
-
 
 import models.Category;
 import models.City;
 import models.Classified;
+import models.Document;
 import play.Logger;
+import play.Play;
 import play.cache.Cache;
 import play.data.binding.As;
 import play.data.binding.types.FileArrayBinder;
 import play.data.validation.Phone;
 import play.data.validation.Required;
+import play.data.validation.Valid;
 import play.libs.Codec;
+import play.libs.MimeTypes;
+import play.modules.s3blobs.S3Blob;
 import play.mvc.*;
+import play.vfs.VirtualFile;
 import util.CityParser;
 import util.LocationPref;
 import util.Table;
@@ -32,6 +40,7 @@ import util.Table.Row;
 @With({LocationController.class})
 public class Classifieds extends Controller {
 
+	private static final String IMAGE_UPLOAD_ROOT_DIR_PROPERTY = "classifieds.image.root.dir";
 	public static void index() {    	
     	Map<String, List<Category>> subCategoryMap = new HashMap<String, List<Category>>();
     	List<Category> categories = Category.find("parentName is null and type = 'classifieds' order by name").fetch();
@@ -86,7 +95,7 @@ public class Classifieds extends Controller {
     		inClause.append(")");
     		classifieds =  Classified.find("categoryId in " + inClause.toString()  + " and zip in " + inZipClause.toString() + " order by postedAt desc").fetch(page, 100);
     	}else {
-    		classifieds =  Classified.find("categoryId = " + categoryId + " order by postedAt desc").fetch(page, 100);
+    		classifieds =  Classified.find("categoryId = " + categoryId  +  " and zip in " + inZipClause.toString() + " order by postedAt desc").fetch(page, 100);
     	}    	    
     	render(categoryName, classifieds, locationPref);
     }
@@ -106,7 +115,63 @@ public class Classifieds extends Controller {
     	render("Classifieds/edit.html", randomID, categories, locationPref);
     }
     
-    public static void post(
+    public static void post2(
+    		@Valid Classified classified, 
+    		@Required(message="Please type the code") String code, 
+    		String randomID, 
+    		@As(binder = FileArrayBinder.class) Object boundFiles) throws FileNotFoundException 
+    	{
+    	System.out.println("classified id: " + classified.id);
+    	File[] images = (File[]) boundFiles;
+        validation.equals(
+            code, Cache.get(randomID)
+        ).message("Invalid code. Please type it again");
+        validation.max(images.length, 4).message("Cannot upload more than 4 files");
+        if(validation.hasErrors()) {
+        	params.flash();
+        	validation.keep();
+        	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
+        	LocationPref locationPref = LocationController.getLocation();
+            render("Classifieds/edit.html",  randomID, categories, locationPref);
+        }
+        models.City classifiedCity = CityParser.cityByNameState.get(classified.city.replaceAll(", ", ""));
+        
+        if(classified.id != null ) {
+        	Logger.info("Modifying existing classified %d", classified.id);
+        	Classified existingClassified;
+        	existingClassified = Classified.findById(classified.id);
+        	existingClassified.city = classified.city;
+        	existingClassified.zip = classifiedCity.zip;
+        	existingClassified.description = classified.description;
+        	existingClassified.phone = classified.phone;
+        	existingClassified.price = classified.price;
+        	existingClassified.title = classified.title;
+        	if(images != null && images.length > 0) {
+        		Logger.info("boundFiles size %d", ((File[])boundFiles).length);
+        		existingClassified.images.clear();
+        		addImages(images, existingClassified);
+        	}
+        	existingClassified.save();
+        	
+        }else {
+        	classified.zip = classifiedCity.zip;
+        	classified.postedAt = new Date(System.currentTimeMillis());
+        	classified.postedBy = session.get("username");
+        	addImages(images, classified);
+        	classified.save();
+        }
+        flash.success("Thanks for posting %s, Following posting has been submitted", session.get("username"));
+        Cache.delete(randomID);
+        view(classified.id);
+    }
+    
+    private static void addImages(File[] images, Classified classified) throws FileNotFoundException {
+	        for(int i=0; i<images.length; i++) {
+	             classified.addImage(images[i]);
+	        }
+    }
+    
+   /* public static void post(
     		long id,
             @Required(message="Title is required") String title, 
             @Required(message="Description is required") String description, 
@@ -152,9 +217,11 @@ public class Classifieds extends Controller {
         	int i=1;
 	        for (File file : files) { 
 	            FileInputStream is = new FileInputStream(file); 
-	            String dirPath = "/temp/bholoodata/" + classified.id ;
+	            //String dirPath = "/temp/bholoodata/" + classified.id ;
+	            String dirPath = Play.configuration.getProperty(IMAGE_UPLOAD_ROOT_DIR_PROPERTY) + classified.id ;
 	            
-	            File directory = new File(dirPath);
+	            //File directory = new File(dirPath);
+	            File directory = VirtualFile.fromRelativePath(dirPath).getRealFile();
 	            directory.mkdir();
 	            	            
 	            String original =  i+file.getName().substring(file.getName().indexOf('.'));
@@ -167,15 +234,19 @@ public class Classifieds extends Controller {
         }catch(Exception e) {
         	Logger.error(e, "Unable to save images for classified id=%s" + classified.id);
         }
-        flash.success("Thanks for posting %s, Following posting has been submitted", "testUser");
+        flash.success("Thanks for posting %s, Following posting has been submitted", session.get("username"));        
         Cache.delete(randomID);
-        view(classified.id, title, description, city, phone, price);
+        view(classified.id, title, description, city, phone, price, classified.numImages());
     }
+    */
     
-    
-    public static void view(long id, String title, String description, String city, String phone, double price) {
+    public static void view(long id) {
+    	Classified classified = Classified.findById(id);
     	LocationPref locationPref = LocationController.getLocation();
-    	render(title, description, city, phone, price, locationPref);
+    	if(locationPref == null) {
+    		Logger.warn("locationPref is null");
+    	}
+    	render(classified, locationPref);
     }
     
     public static void edit(long id) {
@@ -192,5 +263,19 @@ public class Classifieds extends Controller {
     	classified.delete();
     	}
     	mylist();
+    }
+    
+    public static void getImage(long id, int i) {
+    	Classified classified = Classified.findById(id);    	
+    	S3Blob image = classified.getImages().get(i-1).file;
+    	if(image == null) {
+    		Logger.info("image " + i + " is null");
+    	}
+    	response.setContentTypeIfNotSet(image.type());
+    	InputStream in = image.get();
+    	if(in == null) {
+    		Logger.info("inputstream is null");
+    	}
+    	renderBinary(in);
     }
 }

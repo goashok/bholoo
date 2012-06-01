@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="span8">
  
-		#{form @Classifieds.post(), enctype:'multipart/form-data'}
+		#{form @Classifieds.post2(), enctype:'multipart/form-data'}
 			#{ifErrors}
 		        <div class="alert alert-error fade in">
 		        <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -32,39 +32,39 @@
 		    		pPhone = classified.phone;
 		    		pMode = "edit";		    		
 		    	}else {
-		    		pId = flash.id;
-		    		pTitle = flash.title;
-		    		pDesc = flash.description;
-		    		pCategoryId = flash.categoryId;
-		    		pPrice = flash.price;
-		    		pCity = flash.city;
-		    		pPhone = flash.phone;
+		    		pId = flash['classified.id'];
+		    		pTitle = flash['classified.title'];
+		    		pDesc = flash['classified.description'];
+		    		pCategoryId = flash['classified.categoryId'];
+		    		pPrice = flash['classified.price'];
+		    		pCity = flash['classified.city'];
+		    		pPhone = flash['classified.phone'];
 		    		pMode = flash.mode;
 		    	}		    	
 		    }%
 		     <fieldset>
-		          	<input type="hidden" name="id" id="id" value="${pId}">
+		          	<input type="hidden" name="classified.id" id="classified.id" value="${pId}">
 		          	<input type="hidden" name="mode" id="mode" value="${pMode}">
          			<legend>Please fill in the form</legend>
 		          	<div class="control-group">
 		            	<div class="controls docs-input-sizes">
-		              		<input type="text" class="span8" name="title" id="title" placeholder="Title" value="${pTitle}">
+		              		<input type="text" class="span8" name="classified.title" id="classified.title" placeholder="Title" value="${pTitle}">
 		            	</div>
           			</div>
           			<div class="control-group">
 			            <div class="controls">
-		              		<textarea class="span8" name="description" id="description" placeholder="Description" rows="15" cols="125">${pDesc}</textarea> 
+		              		<textarea class="span8" name="classified.description" id="classified.description" placeholder="Description" rows="15" cols="125">${pDesc}</textarea> 
 			            </div>
 			        </div>
 			        <div class="control-group">
 		            	<div class="controls">
-			              		<input type="text" class="input-xlarge" name="price" id="price" placeholder="Price" value="${pPrice}">
+			              		<input type="text" class="input-xlarge" name="classified.price" id="classified.price" placeholder="Price" value="${pPrice}">
 		              		<p class="help-block">Optional</p>		              	
 		            	</div>
           			</div>
           			<div class="control-group">
 		            	<div class="controls">
-			              	<input type="text"  name="city" id="city" placeholder="City" value="${pCity}">
+			              	<input type="text"  name="classified.city" id="city" placeholder="City" value="${pCity}">
 		              		<script type="text/javascript">
 		              			$(document).ready(function() {
 							    	$("#city").autocomplete({
@@ -99,10 +99,10 @@
           			<div class="control-group">
 			            <div class="controls">	
 			              #{if "edit" == pMode}
-			              	<select id="categoryId" name="categoryId" readonly="readonly">
+			              	<select id="classified.categoryId" name="classified.categoryId" readonly="readonly">
 			              #{/if}
 			              #{else}
-			              	<select id="categoryId" name="categoryId">
+			              	<select id="classified.categoryId" name="classified.categoryId">
 			              #{/else}
 			                #{list items:categories, as:'category'} 			                  
 			                   #{if category.id.toString() == pCategoryId.toString()}
@@ -117,7 +117,7 @@
           			</div>
           			<div class="control-group">
 		            	<div class="controls">
-			              	<input type="text" class="input-xlarge" name="phone" id="phone" placeholder="Phone xxx-xxx-xxxx" value="${pPhone}">
+			              	<input type="text" class="input-xlarge" name="classified.phone" id="classified.phone" placeholder="Phone xxx-xxx-xxxx" value="${pPhone}">
 		            	</div>
           			</div>
           			<div class="control-group">
