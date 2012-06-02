@@ -5,7 +5,6 @@
 
 <div class="row">
 	<div class="span8">
- 
 		#{form @Classifieds.post2(), enctype:'multipart/form-data'}
 			#{ifErrors}
 		        <div class="alert alert-error fade in">
@@ -21,7 +20,6 @@
 		    	pPrice;
 		    	pCity;
 		    	pPhone;
-		    	pMode = "new";		    	
 		    	if(classified != null) {
 		    		pId = classified.id;
 		    		pTitle = classified.title;
@@ -38,10 +36,11 @@
 		    		pCategoryId = flash['classified.categoryId'];
 		    		pPrice = flash['classified.price'];
 		    		pCity = flash['classified.city'];
-		    		pPhone = flash['classified.phone'];
-		    		pMode = flash.mode;
-		    	}		    	
+		    		pPhone = flash['classified.phone'];		
+		    		pMode = "new";    		
+		    	}	
 		    }%
+		    
 		     <fieldset>
 		          	<input type="hidden" name="classified.id" id="classified.id" value="${pId}">
 		          	<input type="hidden" name="mode" id="mode" value="${pMode}">
@@ -105,7 +104,7 @@
 			              	<select id="classified.categoryId" name="classified.categoryId">
 			              #{/else}
 			                #{list items:categories, as:'category'} 			                  
-			                   #{if category.id.toString() == pCategoryId.toString()}
+			                   #{if pCategoryId != null && category.id.toString() == pCategoryId.toString()}
 					    		<option value="${category.id}" selected="selected">${category.name}</option>
 					    	   #{/if}
 					    	   #{else}
@@ -123,7 +122,7 @@
           			<div class="control-group">
 		            	<div class="controls">
 			              	<input type="file" draggable="true" name="boundFiles" id="boundFiles" multiple="multiple" value="${flash.boundFiles}">
-		              		<strong>(Max. 4 photos)</strong> <span class="error">#{error 'files' /}
+		              		<strong>(Max. 4 photos)</strong> <span class="error"> #{error 'files' /}
 		            	</div>
           			</div>
           			<div class="control-group">
