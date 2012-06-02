@@ -69,7 +69,7 @@ public class Classifieds extends Controller {
 		if(session.get("username") == null) { Secure.login(); }
 	}
 	
-    public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+   /* public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
     	List<Classified> classifieds;
     	LocationPref locationPref = LocationController.getLocation();
     	List<City> neighbors = controllers.City.neighborsByZip(locationPref.zip, locationPref.radius);
@@ -99,6 +99,75 @@ public class Classifieds extends Controller {
     		classifieds =  Classified.find("categoryId = " + categoryId  +  " and zip in " + inZipClause.toString() + " order by postedAt desc").fetch(page, 100);
     	}    	    
     	render(categoryName, classifieds, locationPref);
+    }
+    */
+    public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+    	LocationPref locationPref = LocationController.getLocation();
+    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent);
+    	String zipFilter = zipQueryFilter();
+    	List<Classified> classifieds = Classified.find(categoryFilter + " and zip in " + zipFilter + " " + classifiedOrderQuerySuffix()).fetch(page, 100);
+    	
+    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, session.get("username"));
+    	Logger.debug("Following zip codes will be considered for classifieds %s" + zipFilter);
+    	
+    	render(categoryName, classifieds, locationPref, categoryId, page, isParent);
+    }
+        
+    
+    private static String categoryQueryFiler(long categoryId, String categoryName, boolean isParent) throws Exception {
+    	StringBuilder categoryFilter = new StringBuilder("categoryId ");
+    	
+    	if(isParent) {
+    		List<Category> childCategories = Category.find("byParentName", categoryName).fetch();
+    		StringBuilder inClause = new StringBuilder("(");
+    		Iterator<Category> iter = childCategories.iterator();
+    		while(iter.hasNext()) {
+    			inClause.append(iter.next().id);
+    			if(iter.hasNext()) {
+    				inClause.append(",");
+    			}
+    		}
+    		inClause.append(")");
+    		categoryFilter.append(" in ").append(inClause.toString());
+    	}else {
+    		categoryFilter.append(" = " + categoryId);
+    	}
+    	
+		return categoryFilter.toString();
+    }
+    
+    private static String classifiedOrderQuerySuffix() {
+    	return "order by postedAt desc";
+    }
+    
+    private static String zipQueryFilter() throws Exception {
+    	LocationPref locationPref = LocationController.getLocation();
+    	List<City> neighbors = controllers.City.neighborsByZip(locationPref.zip, locationPref.radius);
+    	StringBuilder inZipClause = new StringBuilder("(");
+    	Iterator<City> nIter = neighbors.iterator();
+    	while(nIter.hasNext()) {
+    		inZipClause.append("'").append(nIter.next().zip).append("'");
+    		if(nIter.hasNext()) inZipClause.append(",");
+    	}
+    	inZipClause.append(")");
+    	return inZipClause.toString();
+    }
+    
+    private static String priceQueryFilter(double priceFrom, double priceTo, boolean prefixAnd) {
+    	StringBuilder priceFilter = new StringBuilder();
+    	if(priceFrom >0 || priceTo > 0) {
+    		 if(prefixAnd) { 
+    			 priceFilter.append(" and "); 
+    		 }
+    		priceFilter.append("price between " + priceFrom + " and " + (priceTo > 0 ? priceTo : Double.MAX_VALUE));
+    	}
+    	System.out.println("priceFilter " + priceFilter.toString());
+    	return priceFilter.toString();
+    }
+    
+    private static String cityQueryFilter(String city, boolean prefixAnd) {
+    	String cityFilter =  (city != null && city.trim().length() > 0) ? "city = '" + city + "'" : "";
+    	return prefixAnd && cityFilter.length() > 0 ? " and " + cityFilter : cityFilter;
     }
     
     public static void mylist() {
@@ -172,74 +241,6 @@ public class Classifieds extends Controller {
 	        }
     }
     
-   /* public static void post(
-    		long id,
-            @Required(message="Title is required") String title, 
-            @Required(message="Description is required") String description, 
-            @Required(message="City is required") String city,            
-            @Phone(message="Invalid phone number") String phone,
-            @Required(message="Please type the code") String code,
-            @Required(message="Category is required") long categoryId, 
-            @As(binder = FileArrayBinder.class) Object boundFiles,
-            double price,
-            String randomID) 
-    {
-    	System.out.println("classified id: " + id);
-    	File[] files = (File[]) boundFiles;
-    	//System.out.println("File Sizes" + files.length);
-        validation.equals(
-            code, Cache.get(randomID)
-        ).message("Invalid code. Please type it again");
-       // validation.max(files.length, 4).message("Cannot upload more than 4 files");
-        if(validation.hasErrors()) {
-        	params.flash();
-        	 //User user = new User(SecureSocial.getCurrentUser());
-        	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
-        	LocationPref locationPref = LocationController.getLocation();
-            render("Classifieds/edit.html",  randomID, categories, locationPref);
-        }
-        models.City classifiedCity = CityParser.cityByNameState.get(city.replaceAll(", ", ""));
-        Classified classified; 
-        if(id != 0) {
-        	classified = Classified.findById(id);        	
-        	classified.city = city;
-        	classified.zip = classifiedCity.zip;
-        	classified.description = description;
-        	classified.phone = phone;
-        	classified.price = price;
-        	classified.title = title;
-        	classified.save();
-        }else {
-        	classified = new Classified(title, description, price, city, classifiedCity.zip, categoryId, phone, session.get("username"));
-        	classified.save();
-        }
-           
-        try {
-        	int i=1;
-	        for (File file : files) { 
-	            FileInputStream is = new FileInputStream(file); 
-	            //String dirPath = "/temp/bholoodata/" + classified.id ;
-	            String dirPath = Play.configuration.getProperty(IMAGE_UPLOAD_ROOT_DIR_PROPERTY) + classified.id ;
-	            
-	            //File directory = new File(dirPath);
-	            File directory = VirtualFile.fromRelativePath(dirPath).getRealFile();
-	            directory.mkdir();
-	            	            
-	            String original =  i+file.getName().substring(file.getName().indexOf('.'));
-	            
-	            FileOutputStream fos =  new FileOutputStream(new File(directory, original));
-	            IOUtils.copy(is,fos); 
-	            fos.close();
-	            i++;
-	        }  
-        }catch(Exception e) {
-        	Logger.error(e, "Unable to save images for classified id=%s" + classified.id);
-        }
-        flash.success("Thanks for posting %s, Following posting has been submitted", session.get("username"));        
-        Cache.delete(randomID);
-        view(classified.id, title, description, city, phone, price, classified.numImages());
-    }
-    */
     
     public static void view(long id) {
     	Classified classified = Classified.findById(id);
@@ -278,5 +279,21 @@ public class Classifieds extends Controller {
     		Logger.info("inputstream is null");
     	}
     	renderBinary(in);
+    }
+    
+    public static void search(long categoryId, String categoryName, int page, boolean isParent, double priceFrom, double priceTo, String city) throws Exception {
+    	System.out.println(categoryId + ", " + categoryName + ", " + page + ", " + isParent + ", " + priceFrom + ", " + priceTo + ", " + city);
+    	LocationPref locationPref = LocationController.getLocation();
+    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent);
+    	String zipFilter = zipQueryFilter();
+    	boolean PREFIX_AND = true;
+    	String priceFilter = priceQueryFilter(priceFrom, priceTo, PREFIX_AND);
+    	String cityFilter = cityQueryFilter(city, PREFIX_AND);    	
+    	List<Classified> classifieds = Classified.find(categoryFilter + " and zip in " + zipFilter + " " + priceFilter + " " + cityFilter + " " +  classifiedOrderQuerySuffix()).fetch(page, 100);
+    	
+    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, session.get("username"));
+    	Logger.debug("Following zip codes will be considered for classifieds %s" + zipFilter);
+    	
+    	render("Classifieds/list.html", categoryName, classifieds, locationPref, categoryId, page, isParent);
     }
 }

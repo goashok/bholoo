@@ -6,7 +6,48 @@
       <h1>Classifieds matching ${categoryName}</h1>
       <p></p>
     </div> <!-- /container -->
-    
+	<form class="well form-inline" action="@{Classifieds.search()}" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+	  <label><h4>Price From</h4></label>
+	  <input type="text" name="priceFrom" class="input-small" />
+	  <label><h4>Price To</h4></span></label>
+	  <input type="text" name="priceTo" class="input-small" />
+	  <label><h4>City</h4></label>
+	  <input type="text" placeholder="City" id="city" name="city"  class="input-medium" />
+	  <script type="text/javascript">
+  			$(document).ready(function() {
+		    	$("#city").autocomplete({
+		    		source: function(request, response){
+		    			$.ajax({
+		    				url: "@{City.listMatches}",
+		    				dataType: "json",
+		    				data: {
+		    					term: request.term
+		    				},
+		    				success: function(data) {
+		    					response(
+		    						$.map(
+		    							data,  	function(item) {
+		    										return {
+		    											value: item.name + ', ' + item.state
+		    										}
+		    								 	}
+		    						)
+		    					);
+		    				}
+		    			});
+		    		},
+		    		autofocus: true,
+		    		minLength: 3,
+		    		delay: 500
+				}); //autocomplete
+		  }); //ready
+  		</script>
+  	  <input type="hidden" name="categoryId" value="${categoryId}">
+  	  <input type="hidden" name="categoryName" value="${categoryName}">
+  	  <input type="hidden" name="isParent" value="${isParent}">
+  	  <input type="hidden" name="page" value="${page}">
+	  <button type="submit" class="btn">Search</button>
+	</form>
 	<div class="container">
       	<table class="table table-striped">
 		  <thead>

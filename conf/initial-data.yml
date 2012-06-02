@@ -212,7 +212,7 @@ Category(RetailJobs):
     
 Classified(1):
     title:         Your stars*** are going to change, Meet Prem Jyotish
-    price:         200
+    price:         35
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Marlboro, NJ
@@ -220,7 +220,7 @@ Classified(1):
     
 Classified(2):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         765
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Edison, NJ
@@ -228,7 +228,7 @@ Classified(2):
 
 Classified(3):
     title:         Your stars*** are going to change, Meet Prem Jyotish
-    price:         200
+    price:         25
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Marlboro, NJ
@@ -236,7 +236,7 @@ Classified(3):
     
 Classified(4):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         546
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          South Plainfield, NJ
@@ -244,7 +244,7 @@ Classified(4):
     
 Classified(5):
     title:         Your stars*** are going to change, Meet Prem Jyotish
-    price:         200
+    price:         1000
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Marlboro, NJ
@@ -252,7 +252,7 @@ Classified(5):
     
 Classified(6):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         115
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Morganville, NJ
@@ -260,7 +260,7 @@ Classified(6):
     
 Classified(7):
     title:         Your stars*** are going to change, Meet Prem Jyotish
-    price:         200
+    price:         35
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Old Bridge, NJ
@@ -268,7 +268,7 @@ Classified(7):
     
 Classified(8):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         210
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13 
     city:          East Brunswick, NJ
@@ -285,7 +285,7 @@ Classified(9):
     
 Classified(10):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         150
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          South River, NJ
@@ -293,7 +293,7 @@ Classified(10):
     
 Classified(11):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         95
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Cincinnati, OH
@@ -301,7 +301,7 @@ Classified(11):
     
 Classified(12):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
-    price:         200
+    price:         1000
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Virginia Beach, VA
@@ -309,7 +309,7 @@ Classified(12):
     
 Classified(13):
     title:         Your stars*** are going to change, Meet Prem Jyotish
-    price:         200
+    price:         100
     postedAt:      2012-02-26 10:00:00.000
     postedBy:      bob@gmail.com
     categoryId:    13
@@ -334,7 +334,7 @@ Classified(15):
     
 Classified(16):
     title:         Palm reading 24 x 7, By live internet camera, at your convenience.
-    price:         200
+    price:         350
     postedAt:      2012-02-28 10:00:00.000
     postedBy:      bob@gmail.com
     categoryId:    14
