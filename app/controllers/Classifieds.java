@@ -32,6 +32,7 @@ import play.modules.s3blobs.S3Blob;
 import play.mvc.*;
 import play.vfs.VirtualFile;
 import util.CityParser;
+import util.IPUtil;
 import util.LocationPref;
 import util.Table;
 import util.Table.Column;
@@ -111,7 +112,7 @@ public class Classifieds extends Controller {
     public static void enter() {
     	String randomID = Codec.UUID();
     	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
-	    LocationPref locationPref = (LocationPref) Cache.get(request.remoteAddress);
+	    LocationPref locationPref = (LocationPref) Cache.get(IPUtil.clientIp(request));
     	render("Classifieds/edit.html", randomID, categories, locationPref);
     }
     
