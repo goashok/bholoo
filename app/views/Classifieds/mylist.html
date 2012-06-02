@@ -27,8 +27,13 @@
 			      <td>${classified.city}</td>
 			      <td>${classified.postedAt}</td>
 			      <td>
-			      	<a class="btn" href="@{Classifieds.edit(classified.id)}"><i class="icon-edit"></i> Edit</a>
-			      	<a class="btn" href="#"><i class="icon-refresh"></i> Renew</a>
+			      	<a class="btn btn-success" href="@{Classifieds.edit(classified.id)}"><i class="icon-edit icon-white"></i> Edit</a>
+			      	#{if classified.entityState == models.EntityState.Inactive()}
+			      	<a class="btn btn-warning" href="@{Classifieds.activate(classified.id)}"><i class="icon-refresh icon-white"></i> Renew</a>
+			      	#{/if}
+			      	#{if classified.entityState == models.EntityState.Active()}
+			      	<a class="btn btn-warning" href="@{Classifieds.deactivate(classified.id)}"><i class="icon-lock icon-white"></i> Make Inactive</a>
+			      	#{/if}
 			      	<a class="btn btn-danger" href="@{Classifieds.delete(classified.id)}"><i class="icon-trash icon-white"></i> Delete</a>
 			      </td>
 			    </tr>

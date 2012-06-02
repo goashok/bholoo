@@ -29,7 +29,7 @@ public class LocationController extends Controller {
 		}else {
 			System.out.println("ip exists with LocationPref " + ((LocationPref)Cache.get(clientIp)).city);
 		}
-		
+		renderArgs.put("locationPref", getLocation());
 	}
 	
 	public static LocationPref getLocation() {

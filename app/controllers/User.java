@@ -48,9 +48,7 @@ public class User extends Controller {
 	
 	public static void create() {		
 		String randomID = Codec.UUID();
-		LocationPref locationPref = LocationController.getLocation();
-		System.out.println("LocationPref=" + locationPref);
-		render(randomID, locationPref);
+		render(randomID);
 	}
 	
 	

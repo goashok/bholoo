@@ -4,8 +4,10 @@ package controllers;
 
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
@@ -59,29 +61,22 @@ public class City extends Controller {
 
 	}
 	
-	public static List<models.City> neighborsByName(String name, String state, int radius) throws Exception {
+	public static Set<models.City> neighborsByName(String name, String state, int radius) throws Exception {
 		models.City city = CityParser.cityByNameState.get(name+state);
 	    return withinRadius(city, radius);
 
 }
 
-	public static List<models.City> neighborsByZip(String zip, int radius) throws Exception {
+	public static Set<models.City> neighborsByZip(String zip, int radius) throws Exception {
 		models.City city = CityParser.cityByZip.get(zip);
 		return withinRadius(city, radius);
 		
 	}
 		
-	private static List<models.City> withinRadius(models.City city, double radius) {
-		/*List<models.City> matches = new LinkedList<models.City>();
-		for(models.City c : CityParser.cities) {
-			if(c.distance(city) <= radius) {
-				matches.add(c);
-			}
-		}
-		renderJSON(matches);*/
-		List<models.City> matches = new LinkedList<models.City>();
+	private static Set<models.City> withinRadius(models.City city, double radius) {
+		Set<models.City> matches = new HashSet<models.City>();
 		if(city == null) {
-			renderJSON(matches);
+			return matches;
 		}
 		double latitude1 = city.latitude;
 		double longitude1 = city.longitude;
@@ -95,7 +90,7 @@ public class City extends Controller {
 
 		//pull back possible matches
 		matches = matchingCities(lowerLatBound, upperLatBound, lowerLongBound, upperLongBound);
-		List<models.City> acceptList = new LinkedList<models.City>();
+		Set<models.City> acceptSet = new HashSet<models.City>();
 		for(models.City match : matches)
 		{
 			double matchLatitude = match.latitude;
@@ -103,15 +98,15 @@ public class City extends Controller {
 			double d = 3963.0 * Math.acos(Math.sin(latitude1 * Math.PI/180) * Math.sin(matchLatitude * Math.PI/180) + Math.cos(latitude1 * Math.PI/180) * Math.cos(matchLatitude * Math.PI/180) *  Math.cos(matchLongitude*Math.PI/180 -longitude1 * Math.PI/180));
 		    if(d <radius)
 		    {
-		      acceptList.add(match);  
+		      acceptSet.add(match);  
 		    }
 		}
 		//renderJSON(acceptList);
-		return acceptList;
+		return acceptSet;
 	}
 	
-		public static List<models.City> matchingCities( double lowerLatBound, double upperLatBound, double lowerLongBound, double upperLongBound) {
-			List<models.City> matched = new LinkedList<models.City>();
+		public static Set<models.City> matchingCities( double lowerLatBound, double upperLatBound, double lowerLongBound, double upperLongBound) {
+			Set<models.City> matched = new HashSet<models.City>();
 			for(models.City city : CityParser.cities) {
 				if(city.latitude >= lowerLatBound && city.latitude <= upperLatBound && city.longitude >= lowerLongBound && city.longitude <= upperLongBound) {
 					matched.add(city);

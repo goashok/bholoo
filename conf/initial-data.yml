@@ -211,12 +211,14 @@ Category(RetailJobs):
     parentName:    Jobs
     
 Classified(1):
-    title:         Your stars*** are going to change, Meet Prem Jyotish
+    title:         Your stars*** are going to change, Meet Ashok Jyotish
     price:         35
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
     city:          Marlboro, NJ
     zip:           07751
+    postedBy:      goashok@gmail.com
+    entityState:   1
     
 Classified(2):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
@@ -227,7 +229,7 @@ Classified(2):
     zip:           08820
 
 Classified(3):
-    title:         Your stars*** are going to change, Meet Prem Jyotish
+    title:         Your stars*** are going to change, Meet Prem Jyotish Marlboro
     price:         25
     postedAt:      2012-02-26 10:00:00.000
     categoryId:    13
@@ -330,7 +332,8 @@ Classified(15):
     postedAt:      2012-02-28 10:00:00.000
     categoryId:    14
     city:          Lebanon, NJ
-    zip:           08833                                                                                                                                                                                
+    zip:           08833
+    entityState:   1                                                                                                                                                                                
     
 Classified(16):
     title:         Palm reading 24 x 7, By live internet camera, at your convenience.
