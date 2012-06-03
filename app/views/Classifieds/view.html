@@ -27,9 +27,11 @@
         #{if classified.phone}
         | Phone: ${classified.phone} 
         #{/if}
-        <h2>Description</h2>
+        <h2>Description</h2>        
         #{if classified.description}
-        <small>${classified.description}<small>
+        <pre>
+        ${classified.description}
+        </pre>
         #{/if}
         #{else}
         <h4>No description found ..</h4>
