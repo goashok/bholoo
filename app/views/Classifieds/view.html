@@ -7,10 +7,14 @@
 		<strong> ${flash.success}</strong>
 	  </div>
 #{/if}
-
 <section id="submitResult">
 	<div class="well">
-        <h1>${classified.title}</h1>
+	    <div class="pull-right">
+		  <a class="btn btn-info" href="@{Classifieds.like(classified.id)}"><i class="icon-heart icon-white"></i> Like</a>		  
+		  <a class="btn btn-inverse" href="@{Classifieds.spam(classified.id)}"><i class="icon-share-alt icon-white"></i> Spam</a>
+		  <a class="btn btn-danger" href="@{Classifieds.reportAbuse(classified.id)}"><i class="icon-eye-open icon-white"></i> Report Abuse</a>
+		</div>
+        <h2>${classified.title}</h2>
         <p>        
         #{if classified.price}
         <blockquote>
@@ -23,12 +27,12 @@
         #{if classified.phone}
         | Phone: ${classified.phone} 
         #{/if}
-        <h2>Description<h2>
+        <h2>Description</h2>
         #{if classified.description}
-        <small>${classified.description}</small>
+        <small>${classified.description}<small>
         #{/if}
         #{else}
-        <small>No description found ..</small>
+        <h4>No description found ..</h4>
         #{/else} 
 	</div>
 </section>
@@ -69,6 +73,20 @@
             <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
             <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
+         <script type="text/javascript"> $(document).ready(function(){ 
+			$('#myCarousel').carousel({ 
+			 interval: 3000 
+			}); 
+			}); 
+			$('#myCarousel').hover(
+		    function() {
+		        $(this).carousel('pause');
+		    },
+		    function() {
+        		$(this).carousel('cycle');
+    		}
+			);
+			</script>
       </div>  
       </div>
 </section>     

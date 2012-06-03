@@ -8,12 +8,11 @@
       <header class="jumbotron subhead" id="overview">
         <div class="subnav">
           <ul class="nav nav-pills">
-            <li><a href="@{Classifieds.enter()}">Create New</a></li>
-            <li><a href="#modals">Latest</a></li>
-            <li><a href="#dropdowns">Popular</a></li>
-            <li><a href="#dropdowns">Hot</a></li>
-            <li><a href="#scrollspy">Trending</a></li>            
-            <li><a href="#scrollspy">Featured</a></li>
+            <li><a href="@{Classifieds.enter()}"><i class="icon-edit"></i> Create New</a></li>
+            <li><a href="@{Classifieds.latest()}"><i class="icon-time"></i> Latest</a></li>
+            <li><a href="@{Classifieds.popular()}"><i class="icon-eye-open"></i> Popular</a></li>            
+            <li><a href="@{Classifieds.liked()}"><i class="icon-heart"></i> Liked</a></li>            
+            <li><a href=""@{Classifieds.featured()}""><i class="icon-star-empty"></i> Featured</a></li>
           </ul>
         </div>
       </header>

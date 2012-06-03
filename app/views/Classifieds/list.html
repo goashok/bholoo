@@ -3,8 +3,21 @@
 <section id="javascript">
 	<div class="container">
 
-      <h1>Classifieds matching ${categoryName}</h1>
-      <p></p>
+	<!-- Masthead
+      ================================================== -->
+      <header class="jumbotron subhead" id="overview">
+        <div class="subnav">
+          <ul class="nav nav-pills">
+            <li><a href="@{Classifieds.enter()}"><i class="icon-edit"></i> Create New</a></li>
+            <li><a href="@{Classifieds.latest(categoryId, categoryName, page, isParent)}"><i class="icon-time"></i> Latest</a></li>
+            <li><a href="@{Classifieds.popular(categoryId, categoryName, page, isParent)}"><i class="icon-eye-open"></i> Popular</a></li>            
+            <li><a href="@{Classifieds.liked(categoryId, categoryName, page, isParent)}"><i class="icon-heart"></i> Liked</a></li>            
+            <li><a href="@{Classifieds.featured(categoryId, categoryName, page, isParent)}"><i class="icon-star-empty"></i> Featured</a></li>
+          </ul>
+        </div>
+      </header>
+      	
+      <h3>Refine</h3>
     </div> <!-- /container -->
 	<form class="well form-inline" action="@{Classifieds.search()}" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
 	  <label><h4>Price From</h4></label>
@@ -48,10 +61,12 @@
   	  <input type="hidden" name="page" value="${page}">
 	  <button type="submit" class="btn">Search</button>
 	</form>
+	<h2>${statsType} Classifieds #{if categoryName}in ${categoryName}#{/if}</h2>
 	<div class="container">
       	<table class="table table-striped">
 		  <thead>
 		    <tr>
+		      <th></th>
 		      <th>Title</th>
 		      <th>Price</th>
 		      <th>City</th>
@@ -62,6 +77,7 @@
 		    #{if classifieds.size() }
 			   	#{list classifieds, as: 'classified'}
 			    <tr>
+			      <td>#{if classified.numImages() > 0}<i class="icon-camera"></i>#{/if}</td>
 			      <td><a href="@{Classifieds.view(classified.id)}">${classified.title}</a></td>
 			      <td>${classified.price}</td>
 			      <td>${classified.city}</td>
@@ -71,6 +87,7 @@
 		  	#{/if}
 		  	#{else}
 		  		 <tr>
+		  		  <td</td>
 			      <td>No classifieds posted ... </td>
 			      <td></td>
 			      <td></td>

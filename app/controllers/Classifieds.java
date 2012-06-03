@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jobs.EntityStatsJob;
+
 import org.apache.commons.io.IOUtils;
 
 import models.Category;
@@ -21,6 +23,15 @@ import models.City;
 import models.Classified;
 import models.Document;
 import models.EntityState;
+import models.EntityStats;
+import models.EntityStatsType;
+import static models.EntityState.Active;
+import static models.EntityState.Inactive;
+import static models.EntityStatsType.Hits;
+import static models.EntityStatsType.Likes;
+import static models.EntityStatsType.Abuses;
+import static models.EntityStatsType.Spams;
+import static models.EntityType.Classifieds;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
@@ -76,9 +87,9 @@ public class Classifieds extends Controller {
     public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception
     {
     	LocationPref locationPref = (LocationPref) renderArgs.get("locationPref");
-    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent);
+    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, false);
     	String zipFilter = zipQueryFilter(true);
-    	String entityStateFilter = entityStateFilter(true, EntityState.Active);
+    	String entityStateFilter = entityStateFilter(true, Active);
     	List<Classified> classifieds = Classified.find(categoryFilter + " " + zipFilter + " " + entityStateFilter + " " + classifiedOrderQuerySuffix()).fetch(page, 100);
     	
     	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, session.get("username"));
@@ -90,10 +101,48 @@ public class Classifieds extends Controller {
     	render(categoryName, classifieds, categoryId, page, isParent);
     }
         
+   
+    public static void popular(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+    	List<Classified> classifieds;
+    	String entityStateFilter = entityStateFilter(true, Active);
+    	String zipFilter = zipQueryFilter(true);
+    	if(categoryId == 0) {
+    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+					      " and s.hits > 0  " + zipFilter + " " + entityStateFilter +
+						  " order by s.hits desc").fetch(page, 100);
+    	}else 
+    	{
+	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
+	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    												   " and s.hits > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
+	    													" order by s.hits desc").fetch(page, 100);
+    	}
+    	String statsType = "Popular";
+    	render("Classifieds/list.html", categoryName, classifieds, categoryId, page, isParent, statsType);
+    }
     
-    private static String categoryQueryFiler(long categoryId, String categoryName, boolean isParent) throws Exception
+    
+    public static void latest(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+    	List<Classified> classifieds;
+    	String zipFilter = zipQueryFilter(false);
+    	String entityStateFilter = entityStateFilter(true, Active);
+    	if(categoryId == 0) {
+    		classifieds = Classified.find(zipFilter + " " + entityStateFilter +
+						  " order by postedAt desc").fetch(page, 100);
+    	}else 
+    	{
+    		String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
+    		classifieds = Classified.find(zipFilter + " " + entityStateFilter + " " + categoryFilter + 
+					  " order by postedAt desc").fetch(page, 100);	    	
+    	}
+    	String statsType = "Latest";
+    	render("Classifieds/list.html", categoryName, classifieds, categoryId, page, isParent, statsType);
+    }
+    
+    
+    private static String categoryQueryFiler(long categoryId, String categoryName, boolean isParent, boolean prefixAnd) throws Exception
     {
-    	StringBuilder categoryFilter = new StringBuilder("categoryId ");
+    	StringBuilder categoryFilter = prefixAnd ? new StringBuilder("and categoryId ") : new StringBuilder("categoryId ");
     	
     	if(isParent) {
     		List<Category> childCategories = Category.find("byParentName", categoryName).fetch();
@@ -259,8 +308,74 @@ public class Classifieds extends Controller {
     
     public static void view(long id)
     {
+    	//Gather stats async.
+    	String hitsContributor = session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
+    	new EntityStatsJob(Hits, Classifieds, id, hitsContributor).now();
     	Classified classified = Classified.findById(id);
     	render(classified);
+    }
+    
+    public static void like(long id) {
+    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
+    	new EntityStatsJob(Likes, Classifieds, id, likeContributor).now();  
+    	//TODO like should be ajax call without page refesh.
+    	flash.success("Thanks for liking");
+    	view(id);
+    }
+    
+    public static void reportAbuse(long id) {
+    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
+    	new EntityStatsJob(Abuses, Classifieds, id, likeContributor).now();  
+    	//TODO reportAbuse should be ajax call without page refesh.
+    	flash.success("Thanks for reporting the abuse. Our team will open an investigation soon");
+    	view(id);
+    }
+    
+    public static void spam(long id) {
+    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
+    	new EntityStatsJob(Spams, Classifieds, id, likeContributor).now();  
+    	//TODO spam should be ajax call without page refesh.
+    	flash.success("Thanks for reporting the spam. Our team will open an investigation soon");
+    	view(id);
+    }
+    
+    public static void liked(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+    	List<Classified> classifieds;
+    	String entityStateFilter = entityStateFilter(true, Active);
+    	String zipFilter = zipQueryFilter(true);
+    	if(categoryId == 0) {
+    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+					      " and s.likes > 0 " + zipFilter + " " + entityStateFilter +
+						  " order by s.likes desc").fetch(page, 100);
+    	}else 
+    	{
+	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
+	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    												   " and s.likes > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
+	    													" order by s.likes desc").fetch(page, 100);
+    	}
+    	String statsType = "Liked";
+    	render("Classifieds/list.html", categoryName, classifieds, categoryId, page, isParent, statsType);
+    }
+    
+    public static void featured(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
+    	//TODO.. this code returns liked. Need to implement Featured.
+    	List<Classified> classifieds;
+    	String entityStateFilter = entityStateFilter(true, Active);
+    	String zipFilter = zipQueryFilter(true);
+    	if(categoryId == 0) {
+    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+					      " and s.likes > 0 " + zipFilter + " " + entityStateFilter +
+						  " order by s.likes desc").fetch(page, 100);
+    	}else 
+    	{
+	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
+	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    												   " and s.likes > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
+	    													" order by s.likes desc").fetch(page, 100);
+    	}
+    	String statsType = "Featured";
+    	render("Classifieds/list.html", categoryName, classifieds, categoryId, page, isParent, statsType);
     }
     
     public static void edit(long id)
@@ -302,8 +417,8 @@ public class Classifieds extends Controller {
     {
     	System.out.println(categoryId + ", " + categoryName + ", " + page + ", " + isParent + ", " + priceFrom + ", " + priceTo + ", " + city);
     	LocationPref locationPref = (LocationPref) renderArgs.get("locationPref");
-    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent);
-    	String entityStateFilter = entityStateFilter(true, EntityState.Active);
+    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, false);
+    	String entityStateFilter = entityStateFilter(true, Active);
     	String zipFilter = zipQueryFilter(true);
     	boolean PREFIX_AND = true;
     	String priceFilter = priceQueryFilter(priceFrom, priceTo, PREFIX_AND);
@@ -328,6 +443,7 @@ public class Classifieds extends Controller {
     {
     	Classified classified = Classified.findById(id);
     	classified.entityState = EntityState.Active();
+    	classified.postedAt = new Date(System.currentTimeMillis());
     	classified.save();
     	mylist();    	
     }

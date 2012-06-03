@@ -10,6 +10,12 @@ GET     /findByIp                            	City.findByIp
 GET		/neighborsByZip							City.neighborsByZip
 GET		/neighborsByName						City.neighborsByName
 
+GET		/stats/classifieds/all					EntityStats.all
+GET		/stats/classifieds/hits 				EntityStats.hits
+GET		/stats/classifieds/likes				EntityStats.likes
+GET		/stats/classifieds/spams				EntityStats.spams
+GET		/stats/classifieds/abuses				EntityStats.abuses
+
 GET		/testbootstrap							Application.testbootstrap
 GET		/testbootstrapjavascript				Application.testbootstrapjavascript
 GET		/shopping								ProductCategories.productCategories
