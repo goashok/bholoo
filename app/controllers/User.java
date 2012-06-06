@@ -73,6 +73,7 @@ public class User extends Controller {
 		}else {
 			flash.error("The activation url is no longer valid, Pls click on Resend Activation on login screen to get a new activation");
 		}
+		Cache.delete(KeyGen.userActivation(uuid));
 		Secure.login();
 	}
 	
