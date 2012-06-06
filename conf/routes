@@ -22,6 +22,8 @@ GET		/shopping								ProductCategories.productCategories
 
 GET		/classifieds/mylist						Classifieds.mylist
 GET		/classifieds/edit						Classifieds.edit
+
+GET		/user/activate							User.activate
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

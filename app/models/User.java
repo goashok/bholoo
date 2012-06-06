@@ -27,6 +27,7 @@ public class User extends Model {
     public String fullname;	
 	public String phone;
     public boolean isAdmin;
+    public boolean isActive;
     
     public User() {
     	
@@ -45,7 +46,7 @@ public class User extends Model {
     }*/
     
     public static User connect(String email, String password) {
-        return find("byEmailAndPassword", email, password).first();
+        return find("byEmailAndPassword", email.toLowerCase(), password).first();
     }
     
     public static User findByEmail(String email) {
