@@ -27,7 +27,6 @@ public class City extends Controller {
 	private static LookupService lookupService; 
 	
 	public City() throws Exception {
-		System.out.println("CityController constructor called");
 		
 	}
 	public static void index() {
@@ -35,7 +34,6 @@ public class City extends Controller {
 	}
 
 	public static void listMatches(String term) {
-		System.out.println("CityController called " + term);
 		renderJSON(CityParser.findCitiesMatchingName(term));
 	}
 

@@ -110,7 +110,9 @@ body {
   font-size: 13px;
   line-height: 18px;
   color: #333333;
-  background-color: #ffffff;
+  background-color: transparent;
+  background-image: url('/public/images/cloud-background.jpg');  
+  background-repeat: repeat-x; 
 }
 a {
   color: #0088cc;
