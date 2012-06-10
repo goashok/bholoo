@@ -1,0 +1,43 @@
+#{extends 'main.html' /}
+#{set title:'Post a classified' /}
+
+<h2>Reply</h2>
+
+<div class="row">
+	<div class="span8">
+		#{form @ReplyTo.send(), enctype:'multipart/form-data'}
+			#{ifErrors}
+		        <div class="alert alert-error fade in">
+		        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        		<strong> ${errors[0]}</strong>
+		        </div>
+		    #{/ifErrors}
+		   
+		    
+		     <fieldset>
+		          	<input type="hidden" name="entityType" id="entityType" value="${entityType}">
+		          	<input type="hidden" name="entityId" id="entityId" value="${entityId}">
+		          	<input type="hidden" name="postedBy" id="entityId" value="${postedBy}">
+         			<legend></legend>
+		          	<div class="control-group">
+		          		<label class="control-label" for="subject">Subject:</label>
+		            	<div class="controls docs-input-sizes">
+		              		<input type="text" class="span8" name="subject" id="subject" placeholder="Subject" value="${subject}" readonly="readonly">
+		            	</div>
+          			</div>
+          			<div class="control-group">
+          				<label class="control-label" for="message">Message:</label>
+			            <div class="controls">
+		              		<textarea class="span8" name="message" id="message" placeholder="Message" rows="15" cols="125">${flash.message}</textarea> 
+			            </div>
+			        </div>
+          			<div class="form-actions">
+          			    <button class="btn btn-primary"><i class="icon-envelope icon-white"></i> Send</button>
+            			<a class="btn" href="@{Application.index()}">Cancel</a>
+          			</div>
+        	</fieldset>
+		   
+		#{/form}
+		
+	</div><!-- span8 -->	
+</div> <!-- row -->
