@@ -25,6 +25,7 @@ import models.Document;
 import models.EntityState;
 import models.EntityStats;
 import models.EntityStatsType;
+import models.EntityType;
 import static models.EntityState.Active;
 import static models.EntityState.Inactive;
 import static models.EntityStatsType.Hits;
@@ -312,7 +313,7 @@ public class Classifieds extends Controller {
     	String hitsContributor = session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
     	new EntityStatsJob(Hits, Classifieds, id, hitsContributor).now();
     	Classified classified = Classified.findById(id);
-    	render(classified);
+    	render(EntityType.Classifieds, classified);
     }
     
     public static void like(long id) {
