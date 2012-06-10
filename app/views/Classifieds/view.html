@@ -1,6 +1,7 @@
 #{extends 'main.html' /}
 #{set title:'Post a classified' /}
 
+<% import models.EntityType %>
 #{if flash.success}
 	 <div class="alert alert-success fade in">
 	    <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -27,6 +28,9 @@
         #{if classified.phone}
         | Phone: ${classified.phone} 
         #{/if}
+        <div class="pull-right">
+		  <a class="btn btn-primary" href="@{ReplyTo.display('Classifieds',classified.postedBy,classified.id,classified.title)}"><i class="icon-envelope icon-white"></i> Reply</a>
+		</div>
         <h2>Description</h2>        
         #{if classified.description}
         <pre>
