@@ -21,7 +21,7 @@ public class Business extends Model{
 	@Phone
 	public String phone;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="tb_business_categories")
 	public List<Category> categories;
 	

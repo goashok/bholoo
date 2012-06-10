@@ -46,6 +46,11 @@ public class EntityStats extends Model
 	 */
 	public long spams;
 	
+	/**
+	 * number of times users have replied
+	 */
+	public long replies;
+	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<EntityStatsContribution> contributions = new ArrayList<EntityStatsContribution>();
 	
