@@ -28,7 +28,7 @@ public class EntityStatsJob extends Job<EntityStats> {
 											" and entityStats.entityTypeId = " + entityId + " and entityStatsType = " + entityStatsType.ordinal()).first();
 		if(contribution != null)
 		{
-			Logger.info("Contributor %s has already contributed ", contributor);
+			Logger.info("Contributor %s has already contributed to %s ", contributor, entityStatsType.name());
 			//Already contributed
 			return;
 		}
