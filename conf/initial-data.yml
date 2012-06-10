@@ -12,6 +12,12 @@ User(jeff):
     password:       Xr4ilOzQ4PCOq3aQ0qbuaQ==
     fullname:       Jeff
     
+User(ashok):
+    email:          goashok@gmail.com
+    password:       test
+    fullname:       Ashok Shamnani
+    isActive:       true
+    
 Category(TourTravel):
     name:          Tours & Travel
     type:          classifieds
@@ -214,6 +220,7 @@ Classified(1):
     title:         Your stars*** are going to change, Meet Ashok Jyotish
     price:         35
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Marlboro, NJ
     zip:           07751
@@ -224,6 +231,7 @@ Classified(2):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         765
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Edison, NJ
     zip:           08820
@@ -233,6 +241,7 @@ Classified(3):
     title:         Your stars*** are going to change, Meet Prem Jyotish Marlboro
     price:         25
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Marlboro, NJ
     zip:           07751
@@ -242,6 +251,7 @@ Classified(4):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         546
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          South Plainfield, NJ
     zip:           07080
@@ -251,6 +261,7 @@ Classified(5):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         1000
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Marlboro, NJ
     zip:           07751
@@ -260,6 +271,7 @@ Classified(6):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         115
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Morganville, NJ
     zip:           07751
@@ -269,6 +281,7 @@ Classified(7):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         35
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Old Bridge, NJ
     zip:           08857
@@ -278,14 +291,17 @@ Classified(8):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         210
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      ruhchi@hotmail.com
     categoryId:    13 
     city:          East Brunswick, NJ
-    zip:           08816                             
+    zip:           08816
+    entityState:   1                             
     
 Classified(9):
     title:         Your stars*** are going to change, Meet Prem Jyotish
     price:         200
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     postedBy:      bob@gmail.com
     categoryId:    13
     city:          Highland Park, NJ
@@ -296,6 +312,7 @@ Classified(10):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         150
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          South River, NJ
     zip:           08882
@@ -305,6 +322,7 @@ Classified(11):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         95
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Cincinnati, OH
     zip:           45202
@@ -314,6 +332,7 @@ Classified(12):
     title:         Contact Ajmeri Baba for all your financial, health & family issues. We have helped millions.
     price:         1000
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    13
     city:          Virginia Beach, VA
     zip:           23451
@@ -333,6 +352,7 @@ Classified(14):
     title:         Palm reader in Edison Area, reads Tarrot, Palm and Fortune
     price:         200
     postedAt:      2012-02-26 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    14
     city:          Carteret, NJ
     zip:           07008
@@ -342,6 +362,7 @@ Classified(15):
     title:         Palm reading 24 x 7, By live internet camera, at your convenience.
     price:         200
     postedAt:      2012-02-28 10:00:00.000
+    postedBy:      goashok@gmail.com
     categoryId:    14
     city:          Lebanon, NJ
     zip:           08833
