@@ -23,7 +23,7 @@ import models.City;
 import models.Classified;
 import models.Document;
 import models.EntityState;
-import models.EntityStats;
+import models.Stats;
 import models.EntityStatsType;
 import models.EntityType;
 import static models.EntityState.Active;
@@ -108,13 +108,13 @@ public class Classifieds extends Controller {
     	String entityStateFilter = entityStateFilter(true, Active);
     	String zipFilter = zipQueryFilter(true);
     	if(categoryId == 0) {
-    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+    		classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId and s.entityType = " + EntityType.Classifieds() +
 					      " and s.hits > 0  " + zipFilter + " " + entityStateFilter +
 						  " order by s.hits desc").fetch(page, 100);
     	}else 
     	{
 	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
-	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    	classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId" +
 	    												   " and s.hits > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
 	    													" order by s.hits desc").fetch(page, 100);
     	}
@@ -345,13 +345,13 @@ public class Classifieds extends Controller {
     	String entityStateFilter = entityStateFilter(true, Active);
     	String zipFilter = zipQueryFilter(true);
     	if(categoryId == 0) {
-    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+    		classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId and s.entityType = " + EntityType.Classifieds() +
 					      " and s.likes > 0 " + zipFilter + " " + entityStateFilter +
 						  " order by s.likes desc").fetch(page, 100);
     	}else 
     	{
 	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
-	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    	classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId" +
 	    												   " and s.likes > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
 	    													" order by s.likes desc").fetch(page, 100);
     	}
@@ -365,13 +365,13 @@ public class Classifieds extends Controller {
     	String entityStateFilter = entityStateFilter(true, Active);
     	String zipFilter = zipQueryFilter(true);
     	if(categoryId == 0) {
-    		classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+    		classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityType = " + EntityType.Classifieds() +
 					      " and s.likes > 0 " + zipFilter + " " + entityStateFilter +
 						  " order by s.likes desc").fetch(page, 100);
     	}else 
     	{
 	    	String categoryFilter = categoryQueryFiler(categoryId, categoryName, isParent, true);
-	    	classifieds = Classified.find("select c from Classified c,  EntityStats s where c.id = s.entityTypeId" +
+	    	classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId" +
 	    												   " and s.likes > 0 " + categoryFilter + " " + zipFilter + " " + entityStateFilter +
 	    													" order by s.likes desc").fetch(page, 100);
     	}
