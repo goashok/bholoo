@@ -1,0 +1,6 @@
+.div-outline-purple {
+    outline: 2px solid #FFEEFF;
+}
+.div-outline-purple:hover {
+	outline: 2px solid #FFDDFF;
+}
