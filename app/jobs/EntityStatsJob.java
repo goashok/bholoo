@@ -2,14 +2,14 @@ package jobs;
 
 import java.util.List;
 
-import models.EntityStats;
-import models.EntityStatsContribution;
+import models.Stats;
+import models.Contribution;
 import models.EntityStatsType;
 import models.EntityType;
 import play.Logger;
 import play.jobs.Job;
 
-public class EntityStatsJob extends Job<EntityStats> {
+public class EntityStatsJob extends Job<Stats> {
 
 	private EntityType entityType;
 	private long entityId;
@@ -24,7 +24,7 @@ public class EntityStatsJob extends Job<EntityStats> {
 	}
 	
 	public void doJob() {
-		EntityStatsContribution contribution = EntityStatsContribution.find("contributor = '" + contributor + "' and entityStats.entityType = " + entityType.ordinal() + 
+		Contribution contribution = Contribution.find("contributor = '" + contributor + "' and entityStats.entityType = " + entityType.ordinal() + 
 											" and entityStats.entityTypeId = " + entityId + " and entityStatsType = " + entityStatsType.ordinal()).first();
 		if(contribution != null)
 		{
@@ -32,17 +32,17 @@ public class EntityStatsJob extends Job<EntityStats> {
 			//Already contributed
 			return;
 		}
-		EntityStats stats = EntityStats.find("byEntityTypeAndEntityTypeId", entityType.ordinal(), entityId).first();
+		Stats stats = Stats.find("byEntityTypeAndEntityTypeId", entityType.ordinal(), entityId).first();
 		if(stats == null) {
 			Logger.info("No stats found for %s with id %d", entityType.name(), entityId);
-			stats = new EntityStats();
+			stats = new Stats();
 			stats.entityType = entityType.ordinal();
 			stats.entityTypeId = entityId;
 		}else {
 			Logger.info("Found  entityStats " + stats);
 			
 		}
-		contribution = new EntityStatsContribution(contributor, entityStatsType.ordinal());
+		contribution = new Contribution(contributor, entityStatsType.ordinal());
 		//link for id propagation
 		contribution.entityStats = stats;
 		stats.contributions.add(contribution);
