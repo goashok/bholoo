@@ -30,4 +30,14 @@ public class Table<T> {
 		}
 		
 	}
+	
+	public List<Column<T>> values() {
+		List<Column<T>> list = new LinkedList<Column<T>>();
+		for(Row<T> row : rows) {
+			for(Column<T> col : row.columns) {
+				list.add(col);
+			}
+		}
+		return list;
+	}
 }
