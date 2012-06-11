@@ -5,12 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import play.db.jpa.Model;
 import play.libs.MimeTypes;
 import play.modules.s3blobs.S3Blob;
 
 @Entity
+@Table(name="tb_document")
 public class Document extends Model
 {
     public String fileName;	

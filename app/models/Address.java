@@ -14,4 +14,6 @@ public class Address extends Model {
 	public String city;
 	public String state;
 	public String zip;
+	public String phone;
+	public String fax;
 }

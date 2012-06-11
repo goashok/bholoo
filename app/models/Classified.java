@@ -47,6 +47,7 @@ public class Classified extends Model {
 	public int entityState;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinTable(name="tb_classified_images")
 	public List<Document> images = new ArrayList<Document>();
 
 	public void addImage(File image) throws FileNotFoundException {

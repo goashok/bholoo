@@ -4,17 +4,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import play.db.jpa.Model;
 
 @Entity
-public class EntityStatsContribution extends Model {
+@Table(name="tb_contribution")
+public class Contribution extends Model {
 
-	public EntityStatsContribution() {
+	public Contribution() {
 		
 	}
 	
-	public EntityStatsContribution(String contributor, int entityStatsType) {
+	public Contribution(String contributor, int entityStatsType) {
 		this.contributor = contributor;
 		this.entityStatsType = entityStatsType;
 	}
@@ -27,7 +29,7 @@ public class EntityStatsContribution extends Model {
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	public EntityStats entityStats;
+	public Stats entityStats;
 	
 	
 }

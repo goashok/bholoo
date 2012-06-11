@@ -6,12 +6,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import play.db.jpa.Model;
 
 @Entity
-public class EntityStats extends Model
+@Table(name="tb_stats")
+public class Stats extends Model
 {
 	/**
 	 * Type of Entity
@@ -52,7 +55,8 @@ public class EntityStats extends Model
 	public long replies;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	public List<EntityStatsContribution> contributions = new ArrayList<EntityStatsContribution>();
+	@JoinTable(name="tb_stats_contributions")
+	public List<Contribution> contributions = new ArrayList<Contribution>();
 	
 	@Override
 	public String toString() {

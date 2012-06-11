@@ -26,9 +26,11 @@ public class Business extends Model{
 	public List<Category> categories;
 	
 	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="tb_business_addresses")
 	public List<Address> addresses;
 	
 	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="tb_business_categories")
 	public List<Hours> hours;
 	
 
