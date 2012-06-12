@@ -10,11 +10,11 @@ GET     /findByIp                            	City.findByIp
 GET		/neighborsByZip							City.neighborsByZip
 GET		/neighborsByName						City.neighborsByName
 
-GET		/stats/classifieds/all					EntityStats.all
-GET		/stats/classifieds/hits 				EntityStats.hits
-GET		/stats/classifieds/likes				EntityStats.likes
-GET		/stats/classifieds/spams				EntityStats.spams
-GET		/stats/classifieds/abuses				EntityStats.abuses
+GET		/stats/classifieds/all					Stats.all
+GET		/stats/classifieds/hits 				Stats.hits
+GET		/stats/classifieds/likes				Stats.likes
+GET		/stats/classifieds/spams				Stats.spams
+GET		/stats/classifieds/abuses				Stats.abuses
 
 GET		/testbootstrap							Application.testbootstrap
 GET		/testbootstrapjavascript				Application.testbootstrapjavascript
@@ -22,6 +22,8 @@ GET		/shopping								ProductCategories.productCategories
 
 GET		/classifieds/mylist						Classifieds.mylist
 GET		/classifieds/edit						Classifieds.edit
+
+GET		/yellowpages/list						YellowPages.list
 
 GET		/reply									ReplyTo.display
 GET		/reply/send								ReplyTo.send
