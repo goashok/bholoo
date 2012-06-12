@@ -54,6 +54,16 @@ public class Stats extends Model
 	 */
 	public long replies;
 	
+	/**
+	 * sum of star rating
+	 */
+	public double cumulativeRatings;
+	
+	/**
+	 * number of times users have rated
+	 */
+	public long ratings;
+	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="tb_stats_contributions")
 	public List<Contribution> contributions = new ArrayList<Contribution>();

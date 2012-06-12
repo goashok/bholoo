@@ -16,16 +16,16 @@ public class Contribution extends Model {
 		
 	}
 	
-	public Contribution(String contributor, int entityStatsType) {
+	public Contribution(String contributor, int statsType) {
 		this.contributor = contributor;
-		this.entityStatsType = entityStatsType;
+		this.statsType = statsType;
 	}
 	/**
 	 * contributor. Could be username or clientIp
 	 */
 	public String contributor;
 	
-	public int entityStatsType;
+	public int statsType;
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
