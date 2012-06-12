@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -65,15 +66,20 @@ public class Stats extends Model
 	public long ratings;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinTable(name="tb_stats_contributions")
+	@JoinTable(name="tb_stats_contributions", joinColumns=@JoinColumn(name="stats_id", referencedColumnName="id"), inverseJoinColumns=@JoinColumn(name="contribution_id", referencedColumnName="id"))
 	public List<Contribution> contributions = new ArrayList<Contribution>();
-	
+
 	@Override
 	public String toString() {
-		return "EntityStats [entityType=" + EntityType.fromOrdinal(entityType).name() + ", entityTypeId="
+		return "Stats [entityType=" + entityType + ", entityTypeId="
 				+ entityTypeId + ", hits=" + hits + ", likes=" + likes
-				+ ", abuses=" + abuses + ", shares=" + shares +  ", spams=" + spams + "]";
+				+ ", abuses=" + abuses + ", shares=" + shares + ", spams="
+				+ spams + ", replies=" + replies + ", cumulativeRatings="
+				+ cumulativeRatings + ", ratings=" + ratings
+				+ ", contributions=" + contributions + "]";
 	}
+	
+	
 	
 	
 }
