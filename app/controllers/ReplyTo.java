@@ -4,6 +4,7 @@ import models.EntityType;
 import models.Reply;
 import play.data.validation.Required;
 import play.mvc.*;
+import util.UserUtil;
 
 @With({LocationController.class,Secure.class})
 public class ReplyTo extends Controller {
@@ -20,7 +21,7 @@ public class ReplyTo extends Controller {
         	validation.keep();
         	display(entityType, postedBy, entityId, subject);
         }
-    	MailSender.replyTo(postedBy, subject, session.get("username"), message);
+    	MailSender.replyTo(postedBy, subject, UserUtil.loggedUser(session), message);
     	flash.success("Your message has been sent");
     	Classifieds.index();
     }

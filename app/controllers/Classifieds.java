@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jobs.EntityStatsJob;
+import jobs.StatsJob;
 
 import org.apache.commons.io.IOUtils;
 
@@ -24,14 +24,14 @@ import models.Classified;
 import models.Document;
 import models.EntityState;
 import models.Stats;
-import models.EntityStatsType;
+import models.StatsType;
 import models.EntityType;
 import static models.EntityState.Active;
 import static models.EntityState.Inactive;
-import static models.EntityStatsType.Hits;
-import static models.EntityStatsType.Likes;
-import static models.EntityStatsType.Abuses;
-import static models.EntityStatsType.Spams;
+import static models.StatsType.Hits;
+import static models.StatsType.Likes;
+import static models.StatsType.Abuses;
+import static models.StatsType.Spams;
 import static models.EntityType.Classifieds;
 import play.Logger;
 import play.Play;
@@ -52,6 +52,7 @@ import util.LocationPref;
 import util.Table;
 import util.Table.Column;
 import util.Table.Row;
+import util.UserUtil;
 
 @With({LocationController.class})
 public class Classifieds extends Controller {
@@ -81,7 +82,7 @@ public class Classifieds extends Controller {
 	{
 		//put redirect url in flash for secure module to redirect to.
 		flash.put("url", "/classifieds/enter");
-		if(session.get("username") == null) { Secure.login(); }
+		if(!UserUtil.isLogged(session)) { Secure.login(); }
 	}
 	
   
@@ -93,7 +94,7 @@ public class Classifieds extends Controller {
     	String entityStateFilter = entityStateFilter(true, Active);
     	List<Classified> classifieds = Classified.find(categoryFilter + " " + zipFilter + " " + entityStateFilter + " " + classifiedOrderQuerySuffix()).fetch(page, 100);
     	
-    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, session.get("username"));
+    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, UserUtil.userNameOrIp(request, session));
     	if(Logger.isDebugEnabled())
     	{
     		Logger.debug("Following zip codes will be considered for classifieds %s" + zipFilter);
@@ -230,8 +231,8 @@ public class Classifieds extends Controller {
     
     public static void mylist()
     {
-    	System.out.println("Finding mylist for user " + session.get("username"));
-    	List<Classified> classifieds = Classified.find("byPostedBy", session.get("username")).fetch();
+    	System.out.println("Finding mylist for user " + UserUtil.loggedUser(session));
+    	List<Classified> classifieds = Classified.find("byPostedBy", UserUtil.loggedUser(session)).fetch();
     	System.out.println("mylist() Found size = " + classifieds.size());
     	render(classifieds);
     }
@@ -288,12 +289,12 @@ public class Classifieds extends Controller {
         {
         	classified.zip = classifiedCity.zip;
         	classified.postedAt = new Date(System.currentTimeMillis());
-        	classified.postedBy = session.get("username");
+        	classified.postedBy = UserUtil.loggedUser(session);
         	classified.entityState = 1;
         	addImages(images, classified);
         	classified.save();
         }
-        flash.success("Thanks for posting %s, Following posting has been submitted", session.get("username"));
+        flash.success("Thanks for posting %s, Following posting has been submitted", UserUtil.loggedUser(session));
         Cache.delete(randomID);
         view(classified.id);
     }
@@ -310,36 +311,36 @@ public class Classifieds extends Controller {
     public static void view(long id)
     {
     	//Gather stats async.
-    	String hitsContributor = session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
-    	new EntityStatsJob(Hits, Classifieds, id, hitsContributor).now();
+    	String hitsContributor = UserUtil.userNameOrIp(request, session);
+    	new StatsJob(Hits, Classifieds, id, hitsContributor).now();
     	Classified classified = Classified.findById(id);
     	render(EntityType.Classifieds, classified);
     }
     
     public static void like(long id) {
-    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
-    	new EntityStatsJob(Likes, Classifieds, id, likeContributor).now();  
+    	String likeContributor =  UserUtil.userNameOrIp(request, session);
+    	new StatsJob(Likes, Classifieds, id, likeContributor).now();  
     	//TODO like should be ajax call without page refesh.
     	flash.success("Thanks for liking");
     	view(id);
     }
     
     public static void reportAbuse(long id) {
-    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
-    	new EntityStatsJob(Abuses, Classifieds, id, likeContributor).now();  
+    	String likeContributor =  UserUtil.userNameOrIp(request, session);
+    	new StatsJob(Abuses, Classifieds, id, likeContributor).now();  
     	//TODO reportAbuse should be ajax call without page refesh.
     	flash.success("Thanks for reporting the abuse. Our team will open an investigation soon");
     	view(id);
     }
     
     public static void spam(long id) {
-    	String likeContributor =  session.get("username") != null ? session.get("username") : IPUtil.clientIp(request);
-    	new EntityStatsJob(Spams, Classifieds, id, likeContributor).now();  
+    	String likeContributor =  UserUtil.userNameOrIp(request, session);
+    	new StatsJob(Spams, Classifieds, id, likeContributor).now();  
     	//TODO spam should be ajax call without page refesh.
     	flash.success("Thanks for reporting the spam. Our team will open an investigation soon");
     	view(id);
     }
-    
+
     public static void liked(long categoryId, String categoryName, int page, boolean isParent) throws Exception {
     	List<Classified> classifieds;
     	String entityStateFilter = entityStateFilter(true, Active);
@@ -426,7 +427,7 @@ public class Classifieds extends Controller {
     	String cityFilter = cityQueryFilter(city, PREFIX_AND);    	
     	List<Classified> classifieds = Classified.find(categoryFilter + " " + zipFilter + " " + priceFilter + " " + cityFilter + " " + entityStateFilter + " " +  classifiedOrderQuerySuffix()).fetch(page, 100);
     	
-    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, session.get("username"));
+    	Logger.info("Finding classifieds within %d miles of %s for user %s", locationPref.radius, locationPref.city, UserUtil.userNameOrIp(request, session));
     	Logger.debug("Following zip codes will be considered for classifieds %s" + zipFilter);
     	
     	render("Classifieds/list.html", categoryName, classifieds, categoryId, page, isParent);
