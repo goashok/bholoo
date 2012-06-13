@@ -1,8 +1,45 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
+<!--<script type="text/javascript">
+  $(document).ready(function() {
+    $("a[rel=popover]")
+        .popover({
+            offset: 10,
+            trigger: 'manual'
+        })
+        .click(function(e) {        
+            e.preventDefault();
+            $(this).popover('toggle');
+        })
+});
+
+
+</script> -->
+
  <div class="container">
 
+	  <!-- Masthead
+      ================================================== -->
+      <header class="jumbotron subhead" id="overview">
+        <div class="subnav">
+          <ul class="nav nav-pills">
+            <li><a href="#"><i class="icon-th"></i> All</a></li>
+            <li><a id="tpop" href="#"><i class="icon-font"></i> Alphabetical</a></li>
+            <li><a href="#"><i class="icon-star"></i> Rated</a></li>                                   
+          </ul>
+        </div>
+      </header>
+      <ul class="nav nav-tabs">
+		  <li><a href="#">A-C</a></li>
+		  <li><a href="#">D-F</a></li>
+		  <li><a href="#">G-I</a></li>
+		  <li><a href="#">J-L</a></li>
+		  <li><a href="#">M-O</a></li>
+		  <li><a href="#">P-R</a></li>
+		  <li><a href="#">S-U</a></li>
+		  <li><a href="#">V-Z</a></li>
+		</ul>
       <!-- Using Javascript w/ Bootstrap
       ================================================== -->
       <section id="javascript">
