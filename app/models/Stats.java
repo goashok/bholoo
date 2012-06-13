@@ -79,7 +79,7 @@ public class Stats extends Model
 				+ ", contributions=" + contributions + "]";
 	}
 	
-	
+	 
 	
 	
 }
