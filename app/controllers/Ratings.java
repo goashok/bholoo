@@ -21,8 +21,4 @@ public class Ratings extends Controller{
 		
 	}
 	
-	private static double round(double cumulativeRatings, long numRatingsContribution) {
-		double rating = (double) cumulativeRatings/numRatingsContribution;
-		return Math.round(rating *2)/2d; 
-	}
 }

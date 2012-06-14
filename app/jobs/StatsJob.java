@@ -65,11 +65,18 @@ public class StatsJob extends Job<Stats> {
 						break;
 		case Spams:		stats.spams++;
 						break;
-		case Ratings: 	stats.cumulativeRatings += rating;
+		case Ratings: 	stats.cumulativeRatings = recalculate(rating, stats);
 						stats.ratings++;
 						break;
 		}
 		stats.save();
 		Logger.info("Saved entityStats " + stats);
     }
+	
+	private static double recalculate(double rating, Stats stats) {
+		double totalRatings = (stats.cumulativeRatings * stats.ratings) + rating;
+		long totalNumRatings = stats.ratings + 1;
+		double recalculated = (double) totalRatings/totalNumRatings;
+		return Math.round(recalculated *2)/2d; 
+	}
 }
