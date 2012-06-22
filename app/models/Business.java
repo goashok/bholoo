@@ -21,6 +21,8 @@ public class Business extends Model{
 	@Phone
 	public String phone;
 	
+	public int entityState;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="tb_business_categories", joinColumns=@JoinColumn(name="business_id", referencedColumnName="id"), inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="id"))
 	public List<Category> categories;
