@@ -71,7 +71,7 @@ public class Classifieds extends Controller {
     		}
     		Category category = categories.get(i);
     		row.addColumn(new Column<Category>(category));
-    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' order by name").fetch();
+    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' and type='classifieds' order by name").fetch();
     		subCategoryMap.put(category.name, subCategories);
     	}    	
     	render(categoriesTable, subCategoryMap);
@@ -383,7 +383,7 @@ public class Classifieds extends Controller {
     public static void edit(long id)
     {
     	String randomID = Codec.UUID();
-    	List<Category> categories = Category.findAllSubcategories();
+    	List<Category> categories = Category.findAllSubcategories(EntityType.Classifieds);
     	Classified classified = Classified.findById(id);
     	render(randomID, classified, categories);
     }

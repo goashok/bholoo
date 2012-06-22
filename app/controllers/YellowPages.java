@@ -23,7 +23,7 @@ import util.Table.Row;
 @With(LocationController.class)
 public class YellowPages extends Controller {
 
-    public static void list() {
+    public static void list2() {
     	List<Business> businesses = Business.findAll();
     	Table<Business> businessesTable = new Table<Business>();
     	Row<Business> row = null; //new Row<Business>();
@@ -39,13 +39,15 @@ public class YellowPages extends Controller {
         render(businessesTable);
     }
     
-    public static void list2(long categoryId, String categoryName, int page, boolean isParent) throws Exception
+    public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception
     {
     	LocationPref locationPref = (LocationPref) renderArgs.get("locationPref");
-    	String categoryFilter = QueryUtil.categoryQueryFiler(categoryId, categoryName, EntityType.YellowPages, isParent, false, "categories.categoryId");
-    	String zipFilter = QueryUtil.zipQueryFilter(true, "addresses.zip");
-    	String entityStateFilter = QueryUtil.entityStateFilter(true, Active);
-    	List<Business> businesses = Business.find(categoryFilter + " " + zipFilter + " " + entityStateFilter + " " + businessOrderQuerySuffix()).fetch(page, 100);
+    	String categoryFilter = QueryUtil.categoryQueryFiler(categoryId, categoryName, EntityType.YellowPages, isParent, false, "cat.id");
+    	String zipFilter = QueryUtil.zipQueryFilter(true, "addr.zip");
+    	String entityStateFilter = QueryUtil.entityStateFilter(true, "b.entityState", Active);
+    	String query = "select distinct b from Business as b join b.categories as cat join b.addresses as addr where " + categoryFilter + " " + zipFilter + " " + entityStateFilter + " " + businessOrderQuerySuffix();
+    	Logger.info("YellowPages.list() query %s", query);
+    	List<Business> businesses = Business.find(query).fetch(page, 100);
     	Table<Business> businessesTable = new Table<Business>();
     	Row<Business> row = null; //new Row<Business>();
     	//businessesTable.addRow(row);
@@ -68,7 +70,7 @@ public class YellowPages extends Controller {
         
     
     private static String businessOrderQuerySuffix() {
-		return "order by name desc";
+		return "order by b.name asc";
 	}
 
 	public static void index() {
