@@ -53,10 +53,10 @@ public class QueryUtil {
 			return categoryFilter.toString();
 	    }
 	 
-	 public static String entityStateFilter(boolean prefixAnd, EntityState... entityStates)
+	 public static String entityStateFilter(boolean prefixAnd, String entityStateProperty, EntityState... entityStates)
 	    {
 	    	if(entityStates.length == 0) return "";
-	    	StringBuilder entityStateFilter = prefixAnd ? new StringBuilder("and entityState") : new StringBuilder("entityState");
+	    	StringBuilder entityStateFilter = prefixAnd ? new StringBuilder("and " + entityStateProperty) : new StringBuilder(entityStateProperty);
 	    	if(entityStates.length > 1)
 	    	{
 	    		entityStateFilter.append(" in (");
