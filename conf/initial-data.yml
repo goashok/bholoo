@@ -3,14 +3,16 @@
 
 User(bob):
     email:          bob@gmail.com
-    password:       Xr4ilOzQ4PCOq3aQ0qbuaQ==
+    password:       test
     fullname:       Bob
     isAdmin:        true
+    isActive:       true
     
 User(jeff):
     email:          jeff@gmail.com
-    password:       Xr4ilOzQ4PCOq3aQ0qbuaQ==
+    password:       test
     fullname:       Jeff
+    isActive:       true
     
 User(ashok):
     email:          goashok@gmail.com
