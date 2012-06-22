@@ -3,10 +3,12 @@ package models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,9 +23,10 @@ public class Business extends Model{
 	@Phone
 	public String phone;
 	
+	@Column(name="entity_state")
 	public int entityState;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="tb_business_categories", joinColumns=@JoinColumn(name="business_id", referencedColumnName="id"), inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="id"))
 	public List<Category> categories;
 	
