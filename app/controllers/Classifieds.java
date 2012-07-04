@@ -60,7 +60,7 @@ public class Classifieds extends Controller {
 	public static void index()
 	{    	
     	Map<String, List<Category>> subCategoryMap = new HashMap<String, List<Category>>();
-    	List<Category> categories = Category.find("parentName is null and type = 'classifieds' order by name").fetch();
+    	List<Category> categories = Category.find("parentName is null and type = 'Classifieds' order by name").fetch();
     	Table<Category> categoriesTable = new Table<Category>();
     	Row<Category> row = new Row<Category>();
     	categoriesTable.addRow(row);
@@ -71,7 +71,7 @@ public class Classifieds extends Controller {
     		}
     		Category category = categories.get(i);
     		row.addColumn(new Column<Category>(category));
-    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' and type='classifieds' order by name").fetch();
+    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' and type='Classifieds' order by name").fetch();
     		subCategoryMap.put(category.name, subCategories);
     	}    	
     	render(categoriesTable, subCategoryMap);
@@ -245,7 +245,7 @@ public class Classifieds extends Controller {
     public static void enter()
     {
     	String randomID = Codec.UUID();
-    	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
+    	List<Category> categories = Category.find("parentName is not null and type = 'Classifieds' order by name").fetch();
     	render("Classifieds/edit.html", randomID, categories);
     }
     
@@ -265,7 +265,7 @@ public class Classifieds extends Controller {
         {
         	params.flash();
         	validation.keep();
-        	List<Category> categories = Category.find("parentName is not null and type = 'classifieds' order by name").fetch();
+        	List<Category> categories = Category.find("parentName is not null and type = 'Classifieds' order by name").fetch();
         	LocationPref locationPref = LocationController.getLocation();
             render("Classifieds/edit.html",  randomID, categories, locationPref);
         }
@@ -371,7 +371,7 @@ public class Classifieds extends Controller {
     	String entityStateFilter = entityStateFilter(true, Active);
     	String zipFilter = zipQueryFilter(true);
     	if(categoryId == 0) {
-    		classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityType = " + EntityType.Classifieds() +
+    		classifieds = Classified.find("select c from Classified c,  Stats s where c.id = s.entityTypeId and  s.entityType = " + EntityType.Classifieds() +
 					      " and s.likes > 0 " + zipFilter + " " + entityStateFilter +
 						  " order by s.likes desc").fetch(page, 100);
     	}else 

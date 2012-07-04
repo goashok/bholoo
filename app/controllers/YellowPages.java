@@ -197,7 +197,7 @@ public class YellowPages extends Controller {
 
 	public static void index() {
     	Map<String, List<Category>> subCategoryMap = new HashMap<String, List<Category>>();
-    	List<Category> categories = Category.find("parentName is null and type = 'yellowpages' order by name").fetch();
+    	List<Category> categories = Category.find("parentName is null and type = 'YellowPages' order by name").fetch();
     	Table<Category> categoriesTable = new Table<Category>();
     	Row<Category> row = new Row<Category>();
     	categoriesTable.addRow(row);
@@ -208,7 +208,7 @@ public class YellowPages extends Controller {
     		}
     		Category category = categories.get(i);
     		row.addColumn(new Column<Category>(category));
-    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' and type='yellowpages' " + " order by name").fetch();
+    		List<Category> subCategories = Category.find("parentName = '" + category.name + "' and type='YellowPages' " + " order by name").fetch();
     		subCategoryMap.put(category.name, subCategories);
     	}    	
     	render(categoriesTable, subCategoryMap);

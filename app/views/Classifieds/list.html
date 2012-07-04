@@ -1,5 +1,10 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<ul class="breadcrumb">
+	<li><a href="/">Home</a> <span class="divider">/</span></li>
+	<li><a href="/">Classifieds</a> <span class="divider">/</span></li>
+	<li class="active">${categoryName}</li>
+</ul>
 <section id="javascript">
 	<div class="container">
 

@@ -4,3 +4,7 @@
 .div-outline-purple:hover {
 	outline: 2px solid #FFDDFF;
 }
+
+.spacer10 {
+    margin-right: 10px; /* define margin as you see fit */
+}
