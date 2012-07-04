@@ -24,6 +24,7 @@ GET		/classifieds/mylist						Classifieds.mylist
 GET		/classifieds/edit						Classifieds.edit
 
 GET		/yellowpages/list						YellowPages.list
+GET		/yellowpages     						YellowPages.index
 
 GET		/reply									ReplyTo.display
 GET		/reply/send								ReplyTo.send
