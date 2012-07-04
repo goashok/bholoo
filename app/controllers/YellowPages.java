@@ -162,7 +162,7 @@ public class YellowPages extends Controller {
     	 */
     	setRatings(businesses);
     	
-    	render("Yellowpages/list.html",categoryName, businessesTable, categoryId, page, isParent);
+    	render("YellowPages/list.html",categoryName, businessesTable, categoryId, page, isParent);
 	}
     
     public static void allRated(int page) throws Exception
