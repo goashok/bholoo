@@ -58,8 +58,18 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a class="brand" href="@{Application.index()}">Bholoo</a></li>
-              <li class="active"><a href="@{Application.index()}">Classifieds</a></li>
-              <li><a href="@{YellowPages.index()}">Businesses</a></li>
+              #{if session.mainNavTab == "Classifieds"}
+              	<li class="active"><a href="@{Application.index()}">Classifieds</a></li>
+              #{/if}
+              #{else}
+              	<li><a href="@{Application.index()}">Classifieds</a></li>
+              #{/else}
+              #{if session.mainNavTab == "YellowPages"}
+              	<li class="active"><a href="@{YellowPages.index()}">Businesses</a></li>
+              #{/if}
+              #{else}
+              	<li><a href="@{YellowPages.index()}">Businesses</a></li>
+              #{/else}
               <li><a href="@{Application.index()}">Events</a></li>
               <li><a href="@{Application.index()}">About</a></li>
               <li><a href="@{Application.index()}">Contact</a></li>

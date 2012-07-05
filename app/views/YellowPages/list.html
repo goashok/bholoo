@@ -21,41 +21,98 @@
 
 	  <!-- Masthead
       ================================================== -->
+      [${session.ypQuickTab}]
       <header class="jumbotron subhead" id="overview">
         <div class="subnav">
           <ul class="nav nav-pills">
-            <li><a href="#"><i class="icon-th"></i> All</a></li>
-            <li><a id="tpop" href="#"><i class="icon-font"></i> Alphabetical</a></li>
-            <li><a href="#"><i class="icon-star"></i> Rated</a></li>                                   
+            #{if session.ypQuickTab == "all"}
+              	<li class="active"><a href="@{YellowPages.all(categoryId,categoryName,1,isParent)}"><i class="icon-th"></i> All</a></li>
+              #{/if}
+              #{else }
+              	<li><a href="@{YellowPages.all(categoryId,categoryName,1,isParent)}"><i class="icon-th"></i> All</a></li>
+              #{/else}
+               #{if session.ypQuickTab == "alpha"}
+              	<li class="active"><a  href="@{YellowPages.alpha(categoryId,categoryName,1,isParent)}"><i class="icon-font"></i> Alphabetical</a></li>
+              #{/if}
+              #{else}
+              	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent)}"><i class="icon-font"></i> Alphabetical</a></li>
+              #{/else}
+               #{if session.ypQuickTab == "rated"}
+              	<li class="active"><a href="@{YellowPages.rated(categoryId,categoryName,1,isParent)}"><i class="icon-star"></i> Rated</a></li>
+              #{/if}
+              #{else}
+              	<li><a href="@{YellowPages.rated(categoryId,categoryName,1,isParent)}"><i class="icon-star"></i> Rated</a></li>
+              #{/else}
           </ul>
         </div>
       </header>
+      #{if alphaRange}
       <ul class="nav nav-tabs">
-		  <li><a href="#">A-C</a></li>
-		  <li><a href="#">D-F</a></li>
-		  <li><a href="#">G-I</a></li>
-		  <li><a href="#">J-L</a></li>
-		  <li><a href="#">M-O</a></li>
-		  <li><a href="#">P-R</a></li>
-		  <li><a href="#">S-U</a></li>
-		  <li><a href="#">V-Z</a></li>
+      	  #{if alphaRange == "A,B,C"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'A,B,C')}">A-C</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'A,B,C')}">A-C</a></li>
+		  #{/else}
+		  #{if alphaRange == "D,E,F"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'D,E,F')}">D-F</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'D,E,F')}">D-F</a></li>
+		  #{/else}
+		  #{if alphaRange == "G,H,I"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'G,H,I')}">G-I</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'G,H,I')}">G-I</a></li>
+		  #{/else}
+		  #{if alphaRange == "J,K,L"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'J,K,L')}">J-L</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'J,K,L')}">J-L</a></li>
+		  #{/else}
+		  #{if alphaRange == "M,N,O"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'M,N,O')}">M-O</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'M,N,O')}">M-O</a></li>
+		  #{/else}
+		  #{if alphaRange == "P,Q,R"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'P,Q,R')}">P-R</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'P,Q,R')}">P-R</a></li>
+		  #{/else}
+		  #{if alphaRange == "S,T,U"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'S,T,U')}">S-U</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'S,T,U')}">S-U</a></li>
+		  #{/else}
+		  #{if alphaRange == "V,W,X,Y,Z"}
+		  	<li class="active"><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'V,W,X,Y,Z')}">V-Z</a></li>
+		  #{/if}
+		  #{else}
+		  	<li><a href="@{YellowPages.alpha(categoryId,categoryName,1,isParent,'V,W,X,Y,Z')}">V-Z</a></li>
+		  #{/else}
+		  
 		</ul>
+		#{/if}
       <!-- Using Javascript w/ Bootstrap
       ================================================== -->
-      <section id="javascript">
-      <div class="page-header">
       <div id="myRating" class="alert alert-block alert-success fade in hide">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <h4 class="alert-heading">Thanks for rating!</h4>
       </div>
-      
+	
       #{list items:businessesTable.rows, as:'row'}
       	<div class="row">
       	#{list row.columns, as:'column'}
 	      	
 	        <div class="span3 div-outline-purple well">
 	          <address>
-		        <strong>${column.value.name}</strong><div id="business${column.value.id}" class="rateit pull-right" entityId="${column.value.id}" data-rateit-value="2.5" data-rateit-ispreset="true" data-rateit-readonly="false" data-rateit-resetable="false"></div><br>
+		        <strong>${column.value.name}</strong><div id="business${column.value.id}" class="rateit pull-right" entityId="${column.value.id}" data-rateit-value="${column.value.ratings}" data-rateit-ispreset="true" data-rateit-readonly="false" data-rateit-resetable="false"></div><br>
 		        ${column.value.addresses[0].address1} <br>
 		        ${column.value.addresses[0].city}, ${column.value.addresses[0].state} ${column.value.addresses[0].zip}<br>
 		        #{if column.value.phone}
@@ -70,7 +127,6 @@
         </div>
        #{/list}     
        
-    </section>
      <script type="text/javascript">
      %{
      	StringBuilder sb = new StringBuilder();

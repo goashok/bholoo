@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import play.data.validation.Phone;
 import play.db.jpa.Model;
@@ -37,6 +38,9 @@ public class Business extends Model{
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="tb_business_hours", joinColumns=@JoinColumn(name="business_id", referencedColumnName="id"), inverseJoinColumns=@JoinColumn(name="hours_id", referencedColumnName="id"))
 	public List<Hours> hours;
+	
+	@Transient
+	public double ratings;
 	
 
 }

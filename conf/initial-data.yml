@@ -217,6 +217,10 @@ Category(RetailJobs):
     name:          Retail
     type:          classifieds
     parentName:    Jobs
+
+Category(ypAuto):
+    name:          Auto
+    type:          yellowpages
     
 Classified(1):
     title:         Your stars*** are going to change, Meet Ashok Jyotish

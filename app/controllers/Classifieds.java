@@ -85,6 +85,11 @@ public class Classifieds extends Controller {
 		if(!UserUtil.isLogged(session)) { Secure.login(); }
 	}
 	
+	@Before(priority=0)
+	public static void setMainNavTab()
+	{
+		session.put("mainNavTab", "Classifieds");
+	}
   
     public static void list(long categoryId, String categoryName, int page, boolean isParent) throws Exception
     {

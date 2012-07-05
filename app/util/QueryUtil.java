@@ -1,9 +1,16 @@
 package util;
 
+import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import play.db.jpa.Model;
 
 import models.Category;
 import models.City;
@@ -75,6 +82,45 @@ public class QueryUtil {
 	    	}
 	    	return entityStateFilter.toString();
 	    }
-	    
+	 
+	 
+	 //Useful when there is a two step query where query the entities first . and then we run second query to either filter or get
+	 //other associated entities.
+	 public static <T extends Model> String inClause(String propertyName, Collection<T> entities) throws Exception
+	 {
+		 if(entities.size() == 0)
+		 {
+			 throw new IllegalArgumentException("Cannot create in clause with empty collection");
+		 }
+		 StringBuilder sb = new StringBuilder("( ");
+		 Iterator<T> eIter  = entities.iterator();
+		 while(eIter.hasNext())
+		 {
+			 Object entity = eIter.next();
+			 Field f = entity.getClass().getField(propertyName);
+			 Object val = f.get(entity);
+			 if(Number.class.isAssignableFrom(val.getClass())) 
+			 {
+				 sb.append(val.toString());
+			 }else if(Timestamp.class.isAssignableFrom(val.getClass()))
+			 {
+				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				 sb.append("'").append(formatter.format((Date)entity)).append("'");
+			 }else if(Date.class.isAssignableFrom(val.getClass()))
+			 {
+				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				 sb.append("'").append(formatter.format((Date)entity)).append("'");
+			 }else
+			 {
+				 sb.append("'").append(val.toString()).append("'");
+			 }
+			 if(eIter.hasNext())
+			 {
+				 sb.append(", ");
+			 }
+		 }
+		 sb.append(" )");
+		 return sb.toString();
+	 }
 
 }
